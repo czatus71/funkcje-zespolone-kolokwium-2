@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lekcja 3: Całki przez residua</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../katex/katex.min.css">
+</head>
+<body>
+
+<header>
+<span class="lesson-num">Lekcja 3 z 6</span>
+<h1>Całki przez residua</h1>
+<p>Przygotowanie do kolokwium &mdash; Funkcje zespolone (Listy 6-9)</p>
+<nav class="progress-bar">
+<a href="0001-promien-zbieznosci-szeregu-potegowego.html" class="done"></a>
+<a href="0002-rozwinięcie-w-szereg-laurenta.html" class="done"></a>
+<a href="0003-calki-przez-residua.html" class="active"></a>
+<a href="0004-zasada-maksimum-rouche.html"></a>
+<a href="0005-rodzaje-osobliwosci.html"></a>
+<a href="0006-niszowe-schematy-zadan.html"></a>
+</nav>
+</header>
+
+<div class="card">
+<h2>Cel lekcji</h2>
+<p>Po tej lekcji będziesz potrafił(a) obliczyć <strong>trzy typy całek</strong> metodą residuów:</p>
+<ol>
+<li>Całki konturowe po krzywych zamkniętych (Lista 8, zad. 5)</li>
+<li>Całki niewłaściwe \(\int_{-\infty}^{\infty} \frac{P(x)}{Q(x)}\, dx\) (Lista 8, zad. 6)</li>
+<li>Całki z \(\sin x\) i \(\cos x\) przez \(e^{iz}\) (Lista 8, zad. 7)</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Typ 1: Całki konturowe (Lista 8, Zad. 5a)</h2>
+$$I = \int_{|z|=2} \frac{z^2}{1+z^4}\, dz$$
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Znajdź bieguny: \(z^4 + 1 = 0 \Rightarrow z^4 = -1 = e^{i\pi}\), więc \(z_k = e^{i(\pi + 2k\pi)/4}\), \(k = 0,1,2,3\)</div></div>
+<div class="step"><div class="step-num">2</div><div>Kontur to <strong>pełny okrąg</strong>, więc bierzemy wszystkie cztery bieguny. Każdy spełnia \(|z_k|=1<2\).</div></div>
+<div class="step"><div class="step-num">4</div><div>Residuum w biegunie rzędu 1: \(\operatorname{Res}_{z_k} \frac{z^2}{z^4+1} = \frac{z_k^2}{4z_k^3} = \frac{1}{4z_k}\) (wzór: \(g/h'\))</div></div>
+<div class="step"><div class="step-num">5</div><div>Suma residuów wynosi \(\frac14\sum_{k=0}^3 1/z_k=0\). Pierwiastki leżą parami naprzeciw siebie, więc składniki się redukują.</div></div>
+<div class="step"><div class="step-num">6</div><div>$$I=2\pi i\sum_{k=0}^3\operatorname{Res}_{z_k}f=0.$$</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Typ 2: Całki niewłaściwe (Lista 8, zad. 6a)</h2>
+$$I = \int_{-\infty}^{\infty} \frac{x^2}{(x^2+a^2)^2}\, dx, \quad a > 0$$
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Całka jest już po całej osi. Domykamy kontur półokręgiem w górnej półpłaszczyźnie.</div></div>
+<div class="step"><div class="step-num">2</div><div>\(f(z) = \frac{z^2}{(z^2+a^2)^2}\). Bieguny: \(z = \pm ia\) (rzędu 2). W górnej półpłaszczyźnie: \(z_0 = ia\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Residuum w biegunie rzędu 2:</div></div>
+<div class="step"><div class="step-num">4</div><div>$$\operatorname{Res}_{ia} f = \lim_{z\to ia} \frac{d}{dz}\left[(z-ia)^2 \frac{z^2}{(z-ia)^2(z+ia)^2}\right] = \lim_{z\to ia} \frac{d}{dz}\left[\frac{z^2}{(z+ia)^2}\right]$$</div></div>
+<div class="step"><div class="step-num">5</div><div>Pochodna: \(\frac{2z(z+ia)^2 - z^2 \cdot 2(z+ia)}{(z+ia)^4} = \frac{2z(z+ia) - 2z^2}{(z+ia)^3} = \frac{2zia}{(z+ia)^3}\)</div></div>
+<div class="step"><div class="step-num">6</div><div>Wstawiamy \(z = ia\): \(\frac{2(ia)ia}{(2ia)^3} = \frac{-2a^2}{-8ia^3} = \frac{1}{4ia}\)</div></div>
+<div class="step"><div class="step-num">7</div><div>$$\int_{-\infty}^{\infty} \frac{x^2}{(x^2+a^2)^2}\, dx = 2\pi i \cdot \frac{1}{4ia} = \frac{\pi}{2a}$$</div></div>
+<div class="step"><div class="step-num">8</div><div>Stąd \(I = \frac{\pi}{2a}\).</div></div>
+</div>
+<div class="warning">
+<p><strong>Szacowanie na półokręgu:</strong> Dla \(|z| = R\), \(|z^2/(z^2+a^2)^2| \leq R^2/(R^2-a^2)^2 \sim 1/R^2\). Długość półokręgu to \(\pi R\), więc całka \(\leq \pi R \cdot C/R^2 = \pi C/R \to 0\). Warunek \(\alpha > 1\) spełniony.</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Typ 3: Całki z \(\cos x\) i \(\sin x\) (Lista 8, Zad. 7a)</h2>
+$$I = \int_{-\infty}^{\infty} \frac{\cos x}{(x^2+1)(x^2+4)}\, dx$$
+
+<div class="warning">
+<p><strong>Nie bierz</strong> \(f(z) = \frac{\cos z}{(z^2+1)(z^2+4)}\)! \(\cos z\) rośnie wykładniczo w górnej półpłaszczyźnie. Nie da się go oszacować na półokręgu.</p>
+</div>
+
+<svg width="100%" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+<line x1="30" y1="200" x2="370" y2="200" stroke="#e6e6e6" stroke-width="1.5"/>
+<text x="375" y="205" font-size="11" fill="#a39e98">Re</text>
+<line x1="200" y1="250" x2="200" y2="10" stroke="#e6e6e6" stroke-width="1" stroke-dasharray="4"/>
+<text x="205" y="20" font-size="11" fill="#a39e98">Im</text>
+<path d="M 30,200 A 170,170 0 0,1 370,200" fill="none" stroke="#0075de" stroke-width="2" stroke-dasharray="6"/>
+<text x="310" y="95" font-size="12" fill="#0075de">C&#x2099;</text>
+<circle cx="200" cy="170" r="5" fill="#dd5b00"/>
+<text x="175" y="165" font-size="13" fill="#793400" font-style="italic">i</text>
+<circle cx="200" cy="140" r="5" fill="#dd5b00"/>
+<text x="165" y="135" font-size="13" fill="#793400" font-style="italic">2i</text>
+<circle cx="200" cy="200" r="3" fill="#a39e98"/>
+<text x="175" y="215" font-size="11" fill="#a39e98">0</text>
+<text x="55" y="215" font-size="11" fill="#a39e98">&minus;R</text>
+<text x="345" y="215" font-size="11" fill="#a39e98">R</text>
+<text x="100" y="245" font-size="12" fill="#0075de">P&#243;&#322;p&#322;aszczyzna g&#243;rna: Im z &gt; 0</text>
+</svg>
+
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Bierzemy \(f(z) = \frac{e^{iz}}{(z^2+1)(z^2+4)}\). Wtedy \(\cos x = \Re(e^{ix})\), więc szukana całka to \(\Re\left(\int_{-\infty}^{\infty} f(x)\, dx\right)\).</div></div>
+<div class="step"><div class="step-num">2</div><div>Bieguny w górnej półpłaszczyźnie: \(z = i\) (z \(z^2+1=0\)) i \(z = 2i\) (z \(z^2+4=0\)).</div></div>
+<div class="step"><div class="step-num">3</div><div>Residuum w \(z = i\):</div></div>
+<div class="step"><div class="step-num">4</div><div>$$\operatorname{Res}_i f = \lim_{z\to i} (z-i)\frac{e^{iz}}{(z-i)(z+i)(z^2+4)} = \frac{e^{-1}}{2i \cdot 3} = \frac{e^{-1}}{6i}$$</div></div>
+<div class="step"><div class="step-num">5</div><div>Residuum w \(z = 2i\):</div></div>
+<div class="step"><div class="step-num">6</div><div>$$\operatorname{Res}_{2i} f = \lim_{z\to 2i} (z-2i)\frac{e^{iz}}{(z^2+1)(z-2i)(z+2i)} = \frac{e^{-2}}{(-3)(4i)} = -\frac{e^{-2}}{12i}$$</div></div>
+<div class="step"><div class="step-num">7</div><div>$$\int_{-\infty}^{\infty} f(x)\, dx = 2\pi i \left(\frac{e^{-1}}{6i} - \frac{e^{-2}}{12i}\right) = 2\pi\left(\frac{e^{-1}}{6} - \frac{e^{-2}}{12}\right) = \pi\left(\frac{2e^{-1} - e^{-2}}{6}\right)$$</div></div>
+<div class="step"><div class="step-num">8</div><div>Wynik jest rzeczywisty, więc \(\Re = \) sama wartość. Stąd:</div></div>
+<div class="step"><div class="step-num">9</div><div>$$I = \frac{\pi}{6}\left(\frac{2}{e} - \frac{1}{e^2}\right)$$</div></div>
+</div>
+
+<div class="block">
+<p><strong>Szacowanie \(e^{iz}\) na półokręgu:</strong> Dla \(z = Re^{i\theta}\), \(0 \leq \theta \leq \pi\):</p>
+<p>\(|e^{iz}| = |e^{iR\cos\theta - R\sin\theta}| = e^{-R\sin\theta} \leq 1\)</p>
+<p>Na górnej półpłaszczyźnie \(\sin\theta \geq 0\), więc wykładnik jest ujemny. Dlatego \(|e^{iz}|\) jest ograniczona przez 1, a lemat Jordana gwarantuje, że całka po półokręgu dąży do 0.</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Połączenie z twierdzeniem Cauchy'ego</h2>
+<div class="block">
+<p>Całka przez residua to bezpośrednie uogólnienie wzoru Cauchy'ego:</p>
+$$\frac{1}{2\pi i} \oint_C f(z)\, dz = \sum_k \operatorname{Res}_{z_k} f$$
+<p>Dla jednego biegunu prostego wewnątrz \(C\) dostajesz klasyczny wzór Cauchy'ego: \(\frac{1}{2\pi i} \oint \frac{f(z)}{z - z_0}\, dz = f(z_0)\). Residua to po prostu zsumowanie wkładów od wszystkich osobliwości wewnątrz konturu.</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Quiz &mdash; sprawdź się</h2>
+<div class="quiz">
+<div class="quiz-question">1. Obliczając \(\int_{-\infty}^{\infty} \frac{\sin x}{x^2+1}\, dx\), którą funkcję zespoloną bierzemy?</div>
+<div class="quiz-options" data-answer="b">
+<button onclick="check(this)">a) \(\frac{\sin z}{z^2+1}\)</button>
+<button onclick="check(this)">b) \(\frac{e^{iz}}{z^2+1}\)</button>
+<button onclick="check(this)">c) \(\frac{\cos z}{z^2+1}\)</button>
+</div>
+<div class="feedback" id="fb1"></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-question">2. Ile wynosi \(\int_{|z|=1} \frac{e^z}{z}\, dz\)?</div>
+<div class="quiz-options" data-answer="a">
+<button onclick="check(this)">a) \(2\pi i\)</button>
+<button onclick="check(this)">b) \(\pi i\)</button>
+<button onclick="check(this)">c) \(0\)</button>
+</div>
+<div class="feedback" id="fb2"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Twoja kolej</h2>
+<p>Rozwiąż <strong>Listę 8, zadanie 6b</strong>: \(\int_{0}^{\infty}\frac{x^2}{(x^2+a^2)^2}\,dx\). To ten sam integrand co wyżej, ale inny przedział.</p>
+<details class="hint"><summary>Strategia</summary><p>Integrand jest parzysty. Całka od \(0\) do \(\infty\) stanowi połowę całki po całej osi.</p></details>
+<details class="hint"><summary>Wynik kontrolny</summary><p>$$\int_{0}^{\infty}\frac{x^2}{(x^2+a^2)^2}\,dx=\frac{\pi}{4a}.$$ Jeśli otrzymasz inną potęgę \(a\), sprawdź skalowanie \(x=at\).</p></details>
+</div>
+
+<nav class="nav">
+<p><a href="0002-rozwinięcie-w-szereg-laurenta.html">Poprzednia lekcja: Rozwinięcie w szereg Laurenta</a> &nbsp;|&nbsp; <a href="0004-zasada-maksimum-rouche.html">Następna lekcja: Zasada maksimum, Schwarz i Rouche</a></p>
+<p class="open-cmd">Otwórz w przeglądarce: <code>google-chrome lessons/0003-calki-przez-residua.html</code></p>
+</nav>
+
+<script src="quiz.js"></script>
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

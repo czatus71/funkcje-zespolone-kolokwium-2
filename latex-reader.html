@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Czytnik odpowiedzi z LaTeX-em</title>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #e9edf2;
+  --paper: #fff;
+  --ink: #18202a;
+  --muted: #637083;
+  --line: #c9d1dc;
+  --blue: #2169b1;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--bg);
+  font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  color: #fff;
+  background: #26374a;
+}
+header strong { font-size: 17px; }
+header span { color: #cbd6e3; font-size: 13px; }
+main {
+  display: grid;
+  grid-template-columns: minmax(300px, .8fr) minmax(420px, 1.2fr);
+  min-height: calc(100vh - 53px);
+}
+.editor, .reader { padding: 18px; }
+.editor {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #aeb8c5;
+  background: #f5f7fa;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.toolbar label { font-weight: 700; }
+button {
+  padding: 7px 12px;
+  border: 1px solid #8793a2;
+  border-radius: 4px;
+  color: var(--ink);
+  background: linear-gradient(#fff, #e4e9ef);
+  cursor: pointer;
+}
+button:hover { border-color: var(--blue); }
+textarea {
+  flex: 1;
+  width: 100%;
+  min-height: 68vh;
+  resize: vertical;
+  padding: 14px;
+  border: 1px solid #9faab7;
+  border-radius: 4px;
+  color: #1f2937;
+  background: #fff;
+  font: 14px/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+.help {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.paper {
+  max-width: 820px;
+  min-height: calc(100vh - 90px);
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 58px);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  box-shadow: 0 8px 28px rgb(36 48 64 / 12%);
+}
+.paper h1, .paper h2, .paper h3 {
+  margin: 1.35em 0 .45em;
+  line-height: 1.25;
+}
+.paper h1:first-child, .paper h2:first-child { margin-top: 0; }
+.paper h1 { font-size: 1.7rem; }
+.paper h2 { font-size: 1.35rem; color: #173f68; }
+.paper h3 { font-size: 1.1rem; }
+.paper p {
+  margin: .75em 0;
+  white-space: pre-wrap;
+}
+.paper ul, .paper ol { padding-left: 1.5em; }
+.paper code {
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: #eef1f5;
+}
+.paper strong { color: #122f4d; }
+.paper .katex-display {
+  margin: 1.3em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 5px 0;
+}
+.error {
+  padding: 10px 12px;
+  color: #8c1d18;
+  border: 1px solid #d9a19e;
+  background: #fff0ef;
+}
+@media (max-width: 850px) {
+  main { grid-template-columns: 1fr; }
+  .editor { border-right: 0; border-bottom: 1px solid #aeb8c5; }
+  textarea { min-height: 38vh; }
+  .paper { min-height: 50vh; }
+}
+@media print {
+  header, .editor { display: none; }
+  main { display: block; }
+  .reader { padding: 0; }
+  .paper { max-width: none; min-height: 0; border: 0; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+<header>
+  <strong>Czytnik odpowiedzi z LaTeX-em</strong>
+  <span>Działa lokalnie. Treść zapisuje się automatycznie.</span>
+</header>
+<main>
+  <section class="editor">
+    <div class="toolbar">
+      <label for="source">Wklej odpowiedź</label>
+      <button id="clear" type="button">Wyczyść</button>
+    </div>
+    <textarea id="source" spellcheck="false"></textarea>
+    <p class="help">Wzory: <code>\(x^2\)</code>, <code>$x^2$</code>, <code>\[x^2\]</code> lub <code>$$x^2$$</code>. Samotne linie <code>[</code> i <code>]</code> też oznaczają blok wzoru. Skrót drukowania: Ctrl+P.</p>
+  </section>
+  <section class="reader">
+    <article class="paper" id="preview"></article>
+  </section>
+</main>
+
+<script src="katex/katex.min.js"></script>
+<script src="katex/auto-render.min.js"></script>
+<script>
+const STORAGE_KEY = "latex-reader-content";
+const source = document.getElementById("source");
+const preview = document.getElementById("preview");
+const clearButton = document.getElementById("clear");
+
+const example = String.raw`# Dlaczego ten wyraz istnieje?
+
+Każda funkcja holomorficzna jest analityczna. W otoczeniu \(z_0\) ma więc szereg Taylora:
+
+\[
+f(z_0+w)=a_0+a_1w+a_2w^2+a_3w^3+\cdots,
+\]
+
+gdzie
+
+\[
+a_n=\frac{f^{(n)}(z_0)}{n!},
+\qquad a_0=f(z_0).
+\]
+
+Jeśli funkcja nie jest stała, to przynajmniej jeden współczynnik poza \(a_0\) jest niezerowy. Wybieramy pierwszy taki indeks:
+
+\[
+m=\min\{n\geq 1:a_n\neq 0\}.
+\]
+
+Wtedy \(a_1=\ldots=a_{m-1}=0\), więc
+
+\[
+f(z_0+w)=f(z_0)+a_mw^m+a_{m+1}w^{m+1}+\cdots.
+\]
+
+Końcówkę zapisujemy krócej:
+
+\[
+\boxed{f(z_0+w)=f(z_0)+a_mw^m+O(w^{m+1})}.
+\]`;
+
+function escapeHtml(text) {
+  return text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function inlineMarkup(text) {
+  return text
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+}
+
+function repairDisplayMathDelimiters(text) {
+  const lines = text.replace(/\r\n?/g, "\n").split("\n");
+  let insideDamagedMath = false;
+
+  return lines.map(line => {
+    if (!insideDamagedMath && /^\s*\[\s*$/.test(line)) {
+      insideDamagedMath = true;
+      return "\\[";
+    }
+
+    if (insideDamagedMath && /^\s*\]\s*$/.test(line)) {
+      insideDamagedMath = false;
+      return "\\]";
+    }
+
+    return line;
+  }).join("\n");
+}
+
+function toHtml(text) {
+  const repaired = repairDisplayMathDelimiters(text);
+  const escaped = escapeHtml(repaired.trim());
+  if (!escaped) return "<p>Wklej odpowiedź po lewej stronie.</p>";
+
+  const blocks = escaped.split(/\n\s*\n/);
+  return blocks.map(block => {
+    const lines = block.split("\n");
+    const first = lines[0];
+
+    if (/^###\s+/.test(first)) return `<h3>${inlineMarkup(first.replace(/^###\s+/, ""))}</h3>`;
+    if (/^##\s+/.test(first)) return `<h2>${inlineMarkup(first.replace(/^##\s+/, ""))}</h2>`;
+    if (/^#\s+/.test(first)) return `<h1>${inlineMarkup(first.replace(/^#\s+/, ""))}</h1>`;
+
+    if (lines.every(line => /^[-*]\s+/.test(line))) {
+      return `<ul>${lines.map(line => `<li>${inlineMarkup(line.replace(/^[-*]\s+/, ""))}</li>`).join("")}</ul>`;
+    }
+
+    if (lines.every(line => /^\d+\.\s+/.test(line))) {
+      return `<ol>${lines.map(line => `<li>${inlineMarkup(line.replace(/^\d+\.\s+/, ""))}</li>`).join("")}</ol>`;
+    }
+
+    return `<p>${inlineMarkup(lines.join("\n"))}</p>`;
+  }).join("");
+}
+
+function render() {
+  localStorage.setItem(STORAGE_KEY, source.value);
+  preview.innerHTML = toHtml(source.value);
+  renderMathInElement(preview, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false},
+      {left: "$", right: "$", display: false}
+    ],
+    throwOnError: false,
+    errorCallback(message) {
+      console.warn(message);
+    }
+  });
+}
+
+let timer;
+source.addEventListener("input", () => {
+  clearTimeout(timer);
+  timer = setTimeout(render, 80);
+});
+
+clearButton.addEventListener("click", () => {
+  source.value = "";
+  render();
+  source.focus();
+});
+
+source.value = localStorage.getItem(STORAGE_KEY) || example;
+render();
+</script>
+</body>
+</html>

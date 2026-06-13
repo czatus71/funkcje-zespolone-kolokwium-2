@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lekcja 6: Niszowe schematy zadań</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../katex/katex.min.css">
+</head>
+<body>
+
+<header>
+<span class="lesson-num">Lekcja 6 z 6</span>
+<h1>Niszowe schematy zadań</h1>
+<p>Przygotowanie do kolokwium &mdash; Funkcje zespolone (Listy 6-9)</p>
+<nav class="progress-bar">
+<a href="0001-promien-zbieznosci-szeregu-potegowego.html" class="done"></a>
+<a href="0002-rozwinięcie-w-szereg-laurenta.html" class="done"></a>
+<a href="0003-calki-przez-residua.html" class="done"></a>
+<a href="0004-zasada-maksimum-rouche.html" class="done"></a>
+<a href="0005-rodzaje-osobliwosci.html" class="done"></a>
+<a href="0006-niszowe-schematy-zadan.html" class="active"></a>
+</nav>
+</header>
+
+<section class="card">
+<h2>Cel lekcji</h2>
+<p>Po tej lekcji rozpoznasz cztery mniej typowe zadania z list 6-9 i szybko dobierzesz do nich właściwe twierdzenie.</p>
+<div class="warning">
+<p><strong>Nie ucz się ich jak jednego tematu.</strong> To cztery osobne sygnały:</p>
+<ul>
+<li>„jednostajnie” &rarr; kryterium Weierstrassa,</li>
+<li>„całkowita i ograniczona” &rarr; Liouville,</li>
+<li>\(\frac{f'}{f}\) po krzywej &rarr; zasada argumentu,</li>
+<li>nietypowy przedział lub mianownik &rarr; kontur dopasowany do symetrii.</li>
+</ul>
+</div>
+</section>
+
+<section class="card">
+<h2>1. Zbieżność jednostajna: znajdź majorantę</h2>
+<p>Najczęściej wystarczy kryterium Weierstrassa. Jeśli dla każdego \(z\in A\)</p>
+$$|f_n(z)|\leq M_n$$
+<p>oraz szereg liczbowy \(\sum M_n\) jest zbieżny, to \(\sum f_n\) zbiega jednostajnie na \(A\).</p>
+
+<div class="example">
+<p><strong>Lista 6, zadanie 2a:</strong></p>
+$$\sum_{n=1}^{\infty}\frac{z^{-2n}}{n^2},
+\qquad A=\{z\in\mathbb C:|z|>1\}.$$
+<div class="step"><div class="step-num">1</div><div>Dla \(z\in A\) mamy \(|z|>1\), więc \(|z|^{-2n}\leq1\).</div></div>
+<div class="step"><div class="step-num">2</div><div>Stąd \(\left|\frac{z^{-2n}}{n^2}\right|\leq\frac1{n^2}=:M_n\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Szereg \(\sum 1/n^2\) jest zbieżny. Kryterium Weierstrassa daje zbieżność jednostajną na całym \(A\).</div></div>
+</div>
+
+<div class="block">
+<p><strong>Wzorzec dla wykładnika:</strong> jeśli \(\operatorname{Re}z\geq\delta>0\), to</p>
+$$|e^{-nz}|=e^{-n\operatorname{Re}z}\leq e^{-n\delta}.$$
+<p>Potem porównaj z szeregiem geometrycznym lub z \(\sum \sqrt n\,e^{-n\delta}\).</p>
+</div>
+
+<div class="warning">
+<p><strong>Pułapka:</strong> majoranta \(M_n\) nie może zależeć od \(z\). Jeśli zależy, nie wykazałeś zbieżności jednostajnej na całym zbiorze.</p>
+</div>
+</section>
+
+<section class="card">
+<h2>2. Liouville i oszacowania Cauchy'ego</h2>
+<p>Gdy zadanie mówi o funkcji całkowitej i globalnym ograniczeniu, najpierw spróbuj użyć twierdzenia Liouville'a.</p>
+<div class="block">
+<p><strong>Twierdzenie Liouville'a:</strong> każda ograniczona funkcja całkowita jest stała.</p>
+<p><strong>Nierówność Cauchy'ego:</strong> jeśli \(|f(z)|\leq M_R\) na \(|z-z_0|=R\), to</p>
+$$|f^{(k)}(z_0)|\leq\frac{k!M_R}{R^k}.$$
+</div>
+
+<div class="example">
+<p><strong>Lista 7, zadanie 3:</strong> \(f\) jest całkowita i \(|f(z)|\geq1\) dla każdego \(z\). Pokaż, że \(f\) jest stała.</p>
+<div class="step"><div class="step-num">1</div><div>Warunek \(|f(z)|\geq1\) mówi, że \(f\) nie ma zer.</div></div>
+<div class="step"><div class="step-num">2</div><div>Zdefiniuj \(g(z)=1/f(z)\). Funkcja \(g\) jest całkowita.</div></div>
+<div class="step"><div class="step-num">3</div><div>Mamy \(|g(z)|=1/|f(z)|\leq1\), więc \(g\) jest ograniczona.</div></div>
+<div class="step"><div class="step-num">4</div><div>Z Liouville'a \(g\) jest stała. Zatem \(f=1/g\) też jest stała.</div></div>
+</div>
+
+<div class="block">
+<p><strong>Trzy typowe przekształcenia:</strong></p>
+<ul>
+<li>\(|f|\geq c>0\) &rarr; badaj \(1/f\),</li>
+<li>\(\operatorname{Re}f\geq0\) &rarr; badaj \(e^{-f}\), bo \(|e^{-f}|=e^{-\operatorname{Re}f}\leq1\),</li>
+<li>wielomian ograniczony na okręgu &rarr; zastosuj maksimum do \(P(z)/z^n\) na zewnątrz koła.</li>
+</ul>
+</div>
+</section>
+
+<section class="card">
+<h2>3. Zasada argumentu: całka liczy zera</h2>
+<p>Jeśli \(f\) nie ma zer ani biegunów na dodatnio zorientowanej krzywej \(\Gamma\), to</p>
+$$\frac{1}{2\pi i}\int_\Gamma\frac{f'(z)}{f(z)}\,dz=N-P,$$
+<p>gdzie \(N\) i \(P\) oznaczają liczbę zer i biegunów wewnątrz \(\Gamma\), z krotnościami.</p>
+
+<div class="example">
+<p><strong>Lista 9, zadanie 16:</strong></p>
+$$f(z)=z^4+2z^3+3z^2+2z=z(z+1)(z^2+z+2).$$
+<p>Dla \(\Gamma=\{|z|=1/2\}\) wewnątrz leży tylko zero \(z=0\). Funkcja jest wielomianem, więc nie ma biegunów.</p>
+$$\int_\Gamma\frac{f'(z)}{f(z)}\,dz=2\pi i\cdot1=2\pi i.$$
+<p>Dla \(\Gamma=\{|z|=e\}\) leżą wszystkie cztery zera, liczone z krotnościami. Zatem całka wynosi \(8\pi i\).</p>
+</div>
+
+<div class="warning">
+<p><strong>Zawsze sprawdź brzeg.</strong> Jeśli zero lub biegun leży na \(\Gamma\), nie wolno bezpośrednio użyć tego wzoru.</p>
+</div>
+</section>
+
+<section class="card">
+<h2>4. Nietypowy kontur: wybierz go po symetrii</h2>
+<p>Półokrąg jest tylko jednym z narzędzi. Kontur powinien sprawić, że całki po jego różnych częściach dadzą tę samą szukaną całkę albo prostą jej wielokrotność.</p>
+
+<div class="block">
+<ul>
+<li>\(\int_0^\infty \frac{dx}{1+x^n}\) &rarr; wycinek koła o kącie \(2\pi/n\),</li>
+<li>mianownik zawiera \(e^x\) &rarr; prostokąt przesunięty o okres \(2\pi i\),</li>
+<li>na osi leży biegun &rarr; małe półokręgi omijające biegun,</li>
+<li>\(\sin(ax)\) lub \(\cos(ax)\) &rarr; zwykle półokrąg i \(e^{iaz}\).</li>
+</ul>
+</div>
+
+<div class="example">
+<p><strong>Lista 8, zadanie 12:</strong> dla \(n\geq3\)</p>
+$$I=\int_0^\infty\frac{dx}{1+x^n}.$$
+<div class="step"><div class="step-num">1</div><div>Weź \(F(z)=1/(1+z^n)\) i wycinek o kącie \(2\pi/n\).</div></div>
+<div class="step"><div class="step-num">2</div><div>Na dolnym promieniu dostajesz \(I_R=\int_0^R\frac{dx}{1+x^n}\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Na górnym promieniu podstaw \(z=xe^{2\pi i/n}\). Ponieważ \(z^n=x^n\), ta część daje \(-e^{2\pi i/n}I_R\).</div></div>
+<div class="step"><div class="step-num">4</div><div>Łuk znika dla \(R\to\infty\), bo \(F(z)=O(R^{-n})\), a długość łuku jest rzędu \(R\).</div></div>
+<div class="step"><div class="step-num">5</div><div>W wycinku leży biegun \(z_0=e^{i\pi/n}\), a \(\operatorname{Res}_{z_0}F=1/(nz_0^{n-1})\).</div></div>
+</div>
+<p>Po twierdzeniu o residuach i uproszczeniu:</p>
+$$\boxed{\int_0^\infty\frac{dx}{1+x^n}=\frac{\pi}{n}\csc\frac{\pi}{n}}.$$
+</section>
+
+<section class="card">
+<h2>Mapa decyzji</h2>
+<div class="block">
+<div class="step"><div class="step-num">1</div><div>Czy zadanie pyta o zbieżność jednostajną? Szukaj \(M_n\) niezależnego od \(z\).</div></div>
+<div class="step"><div class="step-num">2</div><div>Czy funkcja jest całkowita i ograniczona po przekształceniu? Użyj Liouville'a.</div></div>
+<div class="step"><div class="step-num">3</div><div>Czy widzisz \(f'/f\)? Policz zera minus bieguny.</div></div>
+<div class="step"><div class="step-num">4</div><div>Czy półokrąg nie odtwarza szukanej całki? Poszukaj okresu, obrotu lub symetrii.</div></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Quiz</h2>
+<div class="quiz">
+<div class="quiz-question">1. Chcesz wykazać jednostajną zbieżność \(\sum f_n(z)\) na \(A\). Które oszacowanie wystarczy?</div>
+<div class="quiz-options" data-answer="b">
+<button onclick="check(this)">a) \(|f_n(z)|\leq M_n(z)\) i dla każdego \(z\) szereg \(\sum M_n(z)\) jest zbieżny</button>
+<button onclick="check(this)">b) \(|f_n(z)|\leq M_n\) dla wszystkich \(z\in A\) i \(\sum M_n\) jest zbieżny</button>
+<button onclick="check(this)">c) \(f_n(z)\to0\) dla każdego \(z\in A\)</button>
+</div>
+<div class="feedback"></div>
+</div>
+
+<div class="quiz">
+<div class="quiz-question">2. Wielomian \(p\) ma trzy zera wewnątrz \(\Gamma\) i żadnego zera na \(\Gamma\). Ile wynosi \(\int_\Gamma p'(z)/p(z)\,dz\)?</div>
+<div class="quiz-options" data-answer="c">
+<button onclick="check(this)">a) \(3\)</button>
+<button onclick="check(this)">b) \(3\pi i\)</button>
+<button onclick="check(this)">c) \(6\pi i\)</button>
+</div>
+<div class="feedback"></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Twoja kolej</h2>
+<p>Rozwiąż po jednym zadaniu z każdej karty. Najbardziej opłacalny zestaw:</p>
+<ul>
+<li>Lista 6, zadanie 2b,</li>
+<li>Lista 7, zadanie 5,</li>
+<li>Lista 9, zadanie 16a,</li>
+<li>Lista 8, zadanie 12.</li>
+</ul>
+<details class="hint"><summary>Lista 6, zadanie 2b</summary><p>Na zbiorze \(\operatorname{Re}z\geq\delta\) użyj \(|e^{-nz}|\leq e^{-n\delta}\). Szereg \(\sum\sqrt n\,e^{-n\delta}\) jest zbieżny, na przykład z kryterium ilorazowego.</p></details>
+<details class="hint"><summary>Lista 7, zadanie 5</summary><p>Jeśli \(\operatorname{Re}f\geq m\), funkcja \(g(z)=e^{-f(z)}\) spełnia \(|g(z)|\leq e^{-m}\). Liouville daje stałość \(g\), a po zróżniczkowaniu \(g'=-f'e^{-f}=0\), więc \(f'=0\).</p></details>
+<details class="hint"><summary>Lista 9, zadanie 16a</summary><p>Rozłóż \(f(z)=z(z+1)(z^2+z+2)\). W kole \(|z|<1/2\) leży tylko zero \(0\). Zastosuj zasadę argumentu.</p></details>
+<p>Jeśli utkniesz, zapytaj mnie o konkretny krok albo pokaż swoje rozwiązanie.</p>
+</section>
+
+<nav class="nav">
+<p>Poprzednia lekcja: <a href="0005-rodzaje-osobliwosci.html">Rodzaje osobliwości i residua</a></p>
+<p class="open-cmd">Otwórz w przeglądarce: <code>google-chrome lessons/0006-niszowe-schematy-zadan.html</code></p>
+</nav>
+
+<script src="quiz.js"></script>
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

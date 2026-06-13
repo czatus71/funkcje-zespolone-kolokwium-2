@@ -1,0 +1,28 @@
+# Zagadnienia do kolokwium - Listy 6-9
+
+1. Szereg potęgowy - promień, zachowanie na brzegu (raczej ∑ "cos⁴"/n (z-a)^(3n) - Dirichleta (Abela)
+
+2. Szereg Laurenta (?) - rozwinięcie, policzenie residuum
+
+3. Całki przez residua
+   
+   ∫ from -∞ to ∞ P(x)/Q(x) dx
+   
+   ∫ from -∞ to ∞ P(x)sin(x)/Q(x) dx
+   
+   - Odpowiednie twierdzenie które daje policzyć i sprawdzić założenia np.
+     |f(z)| ≤ C/|z|^α, α > 1, |z| ≥ R
+     
+     Jeśli problem z szacowaniem to lim_{z→∞} |zf(z)| = 0
+   
+   - sin x, cos x w całce:
+     f(z) = P(z)/Q(z) · e^(iz) / [ℑ(z) ≥ 0 ograniczone]
+     
+     cos x = ℜ(f(x)) for x ∈ ℝ
+     sin x = ℑ(f(x)) for x ∈ ℝ
+
+4. Zasada maksimum. Znaleźć max|f(z)| z ∈ K̄ (koło domknięte)
+
+5. (?) Residua, rodzaj osobliwości
+
+Jakieś schwarza, picka idk co to - nie

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lekcja 4: Zasada maksimum, Schwarz i Rouche</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../katex/katex.min.css">
+</head>
+<body>
+
+<header>
+<span class="lesson-num">Lekcja 4 z 6</span>
+<h1>Zasada maksimum, Schwarz i Rouche</h1>
+<p>Przygotowanie do kolokwium &mdash; Funkcje zespolone (Listy 6-9)</p>
+<nav class="progress-bar">
+<a href="0001-promien-zbieznosci-szeregu-potegowego.html" class="done"></a>
+<a href="0002-rozwinięcie-w-szereg-laurenta.html" class="done"></a>
+<a href="0003-calki-przez-residua.html" class="done"></a>
+<a href="0004-zasada-maksimum-rouche.html" class="active"></a>
+<a href="0005-rodzaje-osobliwosci.html"></a>
+<a href="0006-niszowe-schematy-zadan.html"></a>
+</nav>
+</header>
+
+<div class="card">
+<h2>Cel lekcji</h2>
+<p>Po tej lekcji będziesz potrafił(a):</p>
+<ul>
+<li>znajdować maksimum i minimum modułu funkcji holomorficznej na kole domkniętym (Lista 9, zad. 4)</li>
+<li>stosować lemat Schwarza i Schwarza-Picka (Lista 9, zad. 1-3, 6)</li>
+<li>liczyć zera wielomianów twierdzeniem Rouchego (Lista 9, zad. 8-12)</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Zasada maksimum i minimum &mdash; algorytm</h2>
+<div class="block">
+<p><strong>Zasada maksimum:</strong> Jeśli \(f\) jest holomorficzna i <strong>nie stała</strong>, to \(|f(z)|\) nie osiąga maksimum wewnątrz obszaru &mdash; tylko na brzegu.</p>
+<p><strong>Zasada minimum:</strong> Jeśli dodatkowo \(f(z) \neq 0\) wewnątrz, to \(|f(z)|\) nie osiąga minimum wewnątrz &mdash; też na brzegu.</p>
+</div>
+<div class="warning">
+<p><strong>Algorytm dla koła domkniętego \(\overline{K} = \{z : |z| \leq R\}\):</strong></p>
+<ol>
+<li>Sprawdź, czy wewnątrz koła są zera \(f\) (tam \(|f| = 0\) &mdash; to minimum!).</li>
+<li>Jeśli nie ma zer wewnątrz: minimum jest na brzegu \(|z| = R\).</li>
+<li>Maksimum <strong>zawsze</strong> na brzegu \(|z| = R\).</li>
+<li>Parametryzuj brzeg: \(z = Re^{it}\), \(t \in [0, 2\pi)\) i szukaj ekstremów funkcji rzeczywistej.</li>
+</ol>
+</div>
+</div>
+
+<div class="card">
+<h2>Intuicja: dlaczego maksimum jest na brzegu?</h2>
+<p>Holomorficzna \(f\) jest analityczna &mdash; w każdym punkcie rozwija się w szereg potęgowy. Średnia wartość \(|f|^2\) na małym okręgu wokół \(z_0\) to:</p>
+<div class="block">
+<p>$$\frac{1}{2\pi} \int_0^{2\pi} |f(z_0 + re^{i\theta})|^2\, d\theta = \sum_{n=0}^{\infty} |a_n|^2 r^{2n} \geq |a_0|^2 = |f(z_0)|^2$$</p>
+</div>
+<p>Więc \(|f(z_0)|\) nie może przekraczać średniej na okręgu &mdash; a skoro średnia \(\leq\) maksimum na okręgu, to \(|f(z_0)| \leq \max_{|z-z_0|=r} |f(z)|\). Gdyby \(z_0\) było maksimum globalnym, \(|f|\) musiałoby być stałe na każdym okręgu wokół niego &mdash; czyli \(f\) musiałaby być stała.</p>
+</div>
+
+<div class="card">
+<h2>Przykład 1: Maksimum i minimum (Lista 9, Zad. 4a)</h2>
+<p>\(f(z) = 3z + 2i\) na \(K = \{z : |z| \leq 3\}\)</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>\(f\) jest holomorficzna, nie stała. Zero w \(z = -\frac{2i}{3}\). Czy \(|{-\frac{2i}{3}}| = \frac{2}{3} < 3\)? Tak! Więc wewnątrz koła jest zero.</div></div>
+<div class="step"><div class="step-num">2</div><div><strong>Minimum:</strong> \(|f(-\frac{2i}{3})| = 0\). To minimum jest wewnątrz.</div></div>
+<div class="step"><div class="step-num">3</div><div><strong>Maksimum:</strong> Na brzegu \(|z| = 3\). Parametryzujemy: \(z = 3e^{it}\).</div></div>
+<div class="step"><div class="step-num">4</div><div>\(|f(z)| = |3 \cdot 3e^{it} + 2i| = |9e^{it} + 2i|\).</div></div>
+<div class="step"><div class="step-num">5</div><div>Największa wartość, gdy \(e^{it} = i\) (czyli \(z = 3i\)): \(|9i + 2i| = |11i| = 11\).</div></div>
+<div class="step"><div class="step-num">6</div><div>Najmniejsza wartość na brzegu, gdy \(e^{it} = -i\): \(|{-9i} + 2i| = |{-7i}| = 7\).</div></div>
+<div class="step"><div class="step-num">7</div><div>Odpowiedź: \(\max |f| = 11\) (w \(z = 3i\)), \(\min |f| = 0\) (w \(z = -\frac{2i}{3}\)).</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Lemat Schwarza &mdash; schemat</h2>
+<div class="block">
+<p>Jeśli \(f\) holomorficzna w kole jednostkowym, \(|f(z)| \leq 1\), \(f(0) = 0\), to:</p>
+<p>$$|f(z)| \leq |z| \quad \text{oraz} \quad |f'(0)| \leq 1$$</p>
+<p><strong>Schemat stosowania:</strong></p>
+<ol>
+<li>Sprawdź założenia: holomorficzność, ograniczoność, \(f(0) = 0\).</li>
+<li>Jeśli brakuje \(f(0) = 0\), zdefiniuj \(g(z) = \frac{f(z) - f(0)}{1 - \overline{f(0)}f(z)}\) (automorfizm koła).</li>
+<li>Wtedy \(g(0) = 0\) i można zastosować lemat Schwarza do \(g\).</li>
+</ol>
+</div>
+</div>
+
+<div class="card">
+<h2>Intuicja: dlaczego Schwarz działa?</h2>
+<p>Jeśli \(|f(z)| \leq 1\) i \(f(0) = 0\), to \(g(z) = f(z)/z\) jest holomorficzna (osobliwość w 0 jest pozorna). Na okręgu \(|z| = r\): \(|g(z)| = |f(z)|/r \leq 1/r\). Gdy \(r \to 1\), dostajemy \(|g(z)| \leq 1\) w całym kole &mdash; a stąd \(|f(z)| \leq |z|\). To intuicja: \(f(0) = 0\) &bdquo;wymusza&rdquo; szybszy spadek niż \(|z|\) blisko zera.</p>
+</div>
+
+<div class="card">
+<h2>Przykład 2: Lemat Schwarza (Lista 9, Zad. 1)</h2>
+<p>\(f\) holomorficzna w kole jednostkowym, \(|f(z)| < 1\). Pokaż, że:</p>
+<div class="block">
+<p>$$\left|\frac{f(z) - f(0)}{1 - \overline{f(0)}f(z)}\right| \leq |z|$$</p>
+</div>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Zdefiniuj \(\varphi(w) = \frac{w - f(0)}{1 - \overline{f(0)}w}\). To automorfizm koła jednostkowego (przekształcenie Möbiusa).</div></div>
+<div class="step"><div class="step-num">2</div><div>\(\varphi(f(0)) = 0\). Złożenie \(g(z) = \varphi(f(z))\) spełnia: \(g\) holomorficzna, \(|g(z)| < 1\), \(g(0) = 0\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Z lematu Schwarza: \(|g(z)| \leq |z|\), czyli dokładnie teza.</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Twierdzenie Rouchego &mdash; schemat</h2>
+<div class="block">
+<p>Jeśli na brzegu \(\Gamma\): \(|g(z)| < |f(z)|\), to \(f + g\) i \(f\) mają tyle samo zer wewnątrz \(\Gamma\).</p>
+<p><strong>Schemat zastosowania:</strong></p>
+<ol>
+<li>Wybierz \(f\) &mdash; dominujący wyraz (największy na brzegu).</li>
+<li>Wybierz \(g\) &mdash; reszta (\(g = h - f\), gdzie \(h = f + g\) to twoja funkcja).</li>
+<li>Sprawdź \(|g(z)| < |f(z)|\) na brzegu.</li>
+<li>Policz zera \(f\) &mdash; to tyle samo zer co \(f + g\).</li>
+</ol>
+</div>
+<div class="warning">
+<p><strong>Typowy wybór \(f\):</strong> wielomianu wybierasz wyraz z najwyższą potęgą (np. \(z^5\)) lub wyraz środkowy (np. \(-6z^2\) jeśli dominuje na danym okręgu). Musisz przetestować na konkretnym brzegu.</p>
+</div>
+</div>
+
+<svg width="100%" viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg">
+<line x1="30" y1="170" x2="370" y2="170" stroke="#0075de" stroke-width="1"/>
+<line x1="200" y1="20" x2="200" y2="320" stroke="#0075de" stroke-width="1"/>
+<circle cx="200" cy="170" r="140" fill="#e8f2fc" stroke="#0075de" stroke-width="2" stroke-dasharray="6"/>
+<circle cx="200" cy="170" r="70" fill="#fff4eb" stroke="#dd5b00" stroke-width="2"/>
+<text x="310" y="90" font-size="12" fill="#0075de">|z| = 2</text>
+<text x="248" y="115" font-size="12" fill="#dd5b00">|z| = 1</text>
+<circle cx="200" cy="170" r="4" fill="#1aae39"/>
+<text x="205" y="185" font-size="11" fill="#1aae39">0</text>
+<line x1="200" y1="170" x2="270" y2="97" stroke="#1aae39" stroke-width="1.5" marker-end="url(#arr-green)"/>
+<text x="253" y="82" font-size="13" fill="#1aae39" font-weight="bold">z&#8305;</text>
+<circle cx="290" cy="130" r="3" fill="#1aae39"/>
+<text x="295" y="125" font-size="11" fill="#1aae39">&minus;z+16</text>
+<circle cx="155" cy="130" r="3" fill="#1aae39"/>
+<circle cx="145" cy="205" r="3" fill="#1aae39"/>
+<circle cx="175" cy="240" r="3" fill="#1aae39"/>
+<text x="230" y="230" font-size="12" fill="#1aae39">5 okr&#261;&#380;e&#324; (5 zer)</text>
+<text x="110" y="310" font-size="12" fill="#0075de">0 zer w |z|&lt;1</text>
+<text x="230" y="310" font-size="12" fill="#1aae39">5 zer w 1&lt;|z|&lt;2</text>
+<defs><marker id="arr-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#1aae39"/></marker></defs>
+</svg>
+
+<div class="card">
+<h2>Intuicja: dlaczego Rouche działa?</h2>
+<p>Warunek \(|g| < |f|\) na brzegu oznacza, że perturbacja jest ściśle mniejsza od wyrazu dominującego. Geometria: \(f(z)\) na brzegu \(\Gamma\) tworzy krzywą okrążającą początek \(n\) razy (gdzie \(n\) = liczba zer \(f\) wewnątrz). Dodanie \(g(z)\) przesuwa każdy punkt tej krzywej o wektor krótszy niż odległość do zera &mdash; więc \(f + g\) nie może &bdquo;przeskoczyć&rdquo; przez początek i okrąża go tyle samo razy. Stąd \(f + g\) ma tyle samo zer co \(f\).</p>
+</div>
+
+<div class="card">
+<h2>Przykład 3: Rouche &mdash; liczba zer (Lista 9, Zad. 8a)</h2>
+<p>Ile zer ma \(p(z) = z^4 - 5z + 1\) w kole \(|z| < 1\)?</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Wybierzmy \(f(z) = -5z\) (bo na \(|z| = 1\): \(|{-5z}| = 5\)).</div></div>
+<div class="step"><div class="step-num">2</div><div>Wtedy \(g(z) = z^4 + 1\). Na \(|z| = 1\): \(|z^4 + 1| \leq |z^4| + 1 = 2\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Czy \(|g(z)| < |f(z)|\)? \(2 < 5\) &mdash; tak!</div></div>
+<div class="step"><div class="step-num">4</div><div>Z tw. Rouche: \(p(z) = f(z) + g(z)\) ma tyle samo zer w \(|z| < 1\) co \(f(z) = -5z\).</div></div>
+<div class="step"><div class="step-num">5</div><div>\(f(z) = -5z\) ma jedno zero (w \(z = 0\), jednokrotne).</div></div>
+<div class="step"><div class="step-num">6</div><div>Odpowiedź: <strong>1 zero</strong> w kole \(|z| < 1\).</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Przykład 4: Rouche &mdash; pierścienie (Lista 9, Zad. 10)</h2>
+<p>Wszystkie zera \(p(z) = z^5 - z + 16\) leżą w pierścieniu \(1 < |z| < 2\).</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div><strong>Dla \(|z| = 1\):</strong> wybierzmy \(f(z) = 16\) (stała). Wtedy \(g(z) = z^5 - z\). Na \(|z| = 1\): \(|z^5 - z| \leq |z^5| + |z| = 2\). Czy \(2 < 16\)? Tak! Więc \(p(z)\) ma 0 zer w \(|z| < 1\) (bo \(f = 16\) ma 0 zer).</div></div>
+<div class="step"><div class="step-num">2</div><div><strong>Dla \(|z| = 2\):</strong> wybierzmy \(f(z) = z^5\). Na \(|z| = 2\): \(|z^5| = 32\). Wtedy \(g(z) = -z + 16\). Na \(|z| = 2\): \(|{-z + 16}| \leq |z| + 16 = 18\). Czy \(18 < 32\)? Tak! Więc \(p(z)\) ma 5 zer w \(|z| < 2\) (bo \(f = z^5\) ma 5 zer).</div></div>
+<div class="step"><div class="step-num">3</div><div>W pierścieniu \(1 < |z| < 2\): \(5 - 0 = 5\) zer. Wszystkie zera leżą w tym pierścieniu.</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Quiz &mdash; sprawdź się</h2>
+<div class="quiz">
+<div class="quiz-question">1. Funkcja \(f(z) = z^2\) na kole \(|z| \leq 1\). Gdzie jest maksimum \(|f(z)|\)?</div>
+<div class="quiz-options" data-answer="b">
+<button onclick="check(this)">a) W środku \(z = 0\)</button>
+<button onclick="check(this)">b) Na brzegu \(|z| = 1\)</button>
+<button onclick="check(this)">c) Wszędzie takie samo</button>
+</div>
+<div class="feedback" id="fb1"></div>
+</div>
+<div class="quiz">
+<div class="quiz-question">2. Ile zer ma \(z^6 - 6z + 10\) w kole \(|z| < 1\)? (Podpowiedź: wybierz \(f(z) = 10\))</div>
+<div class="quiz-options" data-answer="a">
+<button onclick="check(this)">a) 0</button>
+<button onclick="check(this)">b) 1</button>
+<button onclick="check(this)">c) 6</button>
+</div>
+<div class="feedback" id="fb2"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Twoja kolej</h2>
+<p>Weź <strong>Lista 9, zadanie 4c</strong> (\(f(z) = \sin z\) na \(K = \{z : |z| \leq r\}\)) i znajdź maksimum oraz minimum \(|f(z)|\). Pamiętaj: \(\sin z = 0\) w \(z = 0\), które leży wewnątrz koła.</p>
+<details class="hint"><summary>Strategia</summary><p>\(f(z) = \sin z\) jest holomorficzna. Ma zero w \(z = 0\) (wewnątrz koła), więc minimum \(|f| = 0\) jest w środku. Maksimum jest na brzegu \(|z| = r\).</p></details>
+<details class="hint"><summary>Krok 1: parametryzacja brzegu</summary><p>Na brzegu \(z = re^{it}\). Użyj wzoru \(\sin z = \frac{e^{iz} - e^{-iz}}{2i}\), więc \(|\sin z|^2 = \sin^2(\text{Re}\, z) + \sinh^2(\text{Im}\, z)\). Na brzegu \(|z| = r\) mamy \(x^2 + y^2 = r^2\), więc \(|\sin z|^2 = \sin^2(r\cos t) + \sinh^2(r\sin t)\).</p></details>
+<details class="hint"><summary>Krok 2: maksimum</summary><p>Korzystamy z \(\sin^2 x\leq \sinh^2 x\) dla \(x\geq0\) oraz z monotoniczności funkcji \(\sinh^2\). Otrzymujemy \(|\sin(x+iy)|^2\leq\sinh^2(\sqrt{x^2+y^2})\leq\sinh^2 r\). Równość zachodzi dla \(z=\pm ir\). Zatem \(\max|f|=\sinh r\), a \(\min|f|=0\).</p></details>
+<p>Jeśli utkniesz &mdash; zapytaj mnie o konkretny krok.</p>
+</div>
+
+<nav class="nav">
+<p>Poprzednia lekcja: <a href="0003-calki-przez-residua.html">Całki przez residua</a> &middot; Następna lekcja: <a href="0005-rodzaje-osobliwosci.html">Rodzaje osobliwości i residua</a></p>
+<p class="open-cmd">Otwórz w przeglądarce: <code>google-chrome lessons/0004-zasada-maksimum-rouche.html</code></p>
+</nav>
+
+<script src="quiz.js"></script>
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

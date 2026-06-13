@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lekcja 2: Rozwinięcie w szereg Laurenta</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../katex/katex.min.css">
+</head>
+<body>
+
+<header>
+<span class="lesson-num">Lekcja 2 z 6</span>
+<h1>Rozwinięcie w szereg Laurenta</h1>
+<p>Przygotowanie do kolokwium &mdash; Funkcje zespolone (Listy 6-9)</p>
+<nav class="progress-bar">
+<a href="0001-promien-zbieznosci-szeregu-potegowego.html" class="done"></a>
+<a href="0002-rozwinięcie-w-szereg-laurenta.html" class="active"></a>
+<a href="0003-calki-przez-residua.html"></a>
+<a href="0004-zasada-maksimum-rouche.html"></a>
+<a href="0005-rodzaje-osobliwosci.html"></a>
+<a href="0006-niszowe-schematy-zadan.html"></a>
+</nav>
+</header>
+
+<div class="card">
+<h2>Cel lekcji</h2>
+<p>Po tej lekcji będziesz potrafił(a) w <strong>5 minut</strong> rozwinąć funkcję wymierną w szereg Laurenta w zadanym pierścieniu. To klucz do obliczania residuów i wielu całek.</p>
+</div>
+
+<svg width="100%" viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;margin:1rem auto;display:block;">
+  <line x1="50" y1="160" x2="450" y2="160" stroke="#e6e6e6" stroke-width="1"/>
+  <line x1="250" y1="20" x2="250" y2="300" stroke="#e6e6e6" stroke-width="1"/>
+  <circle cx="250" cy="160" r="120" fill="none" stroke="#0075de" stroke-width="2"/>
+  <circle cx="250" cy="160" r="50" fill="none" stroke="#0075de" stroke-width="2"/>
+  <line x1="250" y1="160" x2="210" y2="100" stroke="#0075de" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <text x="225" y="95" font-size="14" fill="#0075de" font-style="italic">R</text>
+  <circle cx="220" cy="115" r="5" fill="#dd5b00"/>
+  <text x="195" y="110" font-size="13" fill="#793400" font-style="italic">a</text>
+  <circle cx="320" cy="95" r="5" fill="#dd5b00"/>
+  <text x="325" y="90" font-size="13" fill="#793400" font-style="italic">b</text>
+  <text x="155" y="170" font-size="13" fill="#0075de" font-weight="bold">Region I</text>
+  <text x="155" y="185" font-size="11" fill="#0075de">|z&minus;z&#8320;|&lt;|a&minus;z&#8320;|</text>
+  <text x="270" y="170" font-size="13" fill="#2a9d99" font-weight="bold">Region II</text>
+  <text x="270" y="185" font-size="11" fill="#2a9d99">|a&minus;z&#8320;|&lt;|z&minus;z&#8320;|&lt;|b&minus;z&#8320;|</text>
+  <text x="375" y="170" font-size="13" fill="#dd5b00" font-weight="bold">Region III</text>
+  <text x="375" y="185" font-size="11" fill="#dd5b00">|z&minus;z&#8320;|&gt;|b&minus;z&#8320;|</text>
+  <circle cx="250" cy="160" r="3" fill="#0075de"/>
+  <text x="255" y="175" font-size="12" fill="#0075de" font-style="italic">z&#8320;</text>
+  <defs><marker id="arrow2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#0075de"/></marker></defs>
+</svg>
+
+<div class="card">
+<h2>Jedna sztuczka, dwa kierunki</h2>
+<p>Cała sztuka rozwinięcia Laurenta sprowadza się do szeregu geometrycznego, ale trzeba wiedzieć, <strong>który kierunek</strong>:</p>
+<div class="block">
+<p><strong>Dla \(|w| < 1\) (potęgi dodatnie):</strong></p>
+<p>$$\frac{1}{1 - w} = \sum_{n=0}^{\infty} w^n$$</p>
+<p><strong>Dla \(|w| > 1\) (potęgi ujemne):</strong></p>
+<p>Ponieważ \(1-w=-w\left(1-\frac1w\right)\), mamy:</p>
+<p>$$\frac{1}{1 - w} = -\frac{1}{w} \cdot \frac{1}{1 - \frac{1}{w}} = -\sum_{n=1}^{\infty} w^{-n} = -\sum_{n=-\infty}^{-1} w^n$$</p>
+</div>
+<div class="warning">
+<p><strong>Reguła kciuka:</strong> Jeśli \(|\text{coś}| < 1\), wyciągasz to przed nawias i rozwijasz w dodatnie potęgi. Jeśli \(|\text{coś}| > 1\), wyciągasz <strong>to drugie</strong> przed nawias i rozwijasz w ujemne potęgi.</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Intuicja: dlaczego dwa kierunki?</h2>
+<p>Szereg geometryczny \(\sum w^n\) zbiega się \(\Leftrightarrow\) \(|w| < 1\). To jedyna zasada, której potrzebujesz. Reszta to sprytne przekształcenia:</p>
+<ul>
+<li><strong>\(|w| < 1\):</strong> Masz postać \(\frac{1}{1-w}\) i rozwijasz w dodatnie potęgi &mdash; to naturalne, bo \(|w^n| \to 0\).</li>
+<li><strong>\(|w| > 1\):</strong> Nie możesz rozwijać w \(w\), bo \(|w^n| \to \infty\). Zamiast tego podstawiasz \(u = 1/w\) (wtedy \(|u| < 1\)) i rozwijasz w \(u\), czyli w ujemne potęgi \(w\). To dlatego wyciągasz \(w\) przed nawias: \(\frac{1}{1-w} = -\frac{1}{w} \cdot \frac{1}{1-1/w}\).</li>
+</ul>
+<div class="warning">
+<p><strong>Częsty błąd:</strong> Próba rozwinięcia \(\frac{1}{1-w}\) w dodatnie potęgi gdy \(|w| > 1\). Pamiętaj: szereg geometryczny \(\sum w^n\) diverges gdy \(|w| \geq 1\). Zawsze sprawdzaj warunek zbieżności przed rozwinięciem!</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Algorytm dla funkcji wymiernych</h2>
+<div class="block">
+<div class="step"><div class="step-num">1</div><div><strong>Rozkład na ułamki proste.</strong> Np. \(\frac{1}{(z-a)(z-b)} = \frac{A}{z-a} + \frac{B}{z-b}\)</div></div>
+<div class="step"><div class="step-num">2</div><div><strong>Określ region.</strong> Sprawdź, jakie są relacje \(|z-z_0|\) względem \(|a-z_0|\), \(|b-z_0|\) itd.</div></div>
+<div class="step"><div class="step-num">3</div><div><strong>Dla każdego ułamka:</strong> doprowadź do postaci \(\frac{1}{1 - w}\), gdzie \(|w| < 1\), lub \(\frac{1}{1 - w}\) gdzie \(|w| > 1\).</div></div>
+<div class="step"><div class="step-num">4</div><div><strong>Rozwiń</strong> w szereg geometryczny i zbierz wyrazy.</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Przykład 1: Lista 7, Zad. 8a</h2>
+<p>\(f(z) = \frac{1}{(z-1)z^2}\), otoczenie pierścieniowe \(z = 0\), czyli \(0 < |z| < 1\)</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Rozkład: \(\frac{1}{(z-1)z^2} = -\frac{1}{z^2} \cdot \frac{1}{1-z}\)</div></div>
+<div class="step"><div class="step-num">2</div><div>Region: \(|z| < 1\), więc dla \(\frac{1}{1-z}\) mamy \(|z| < 1\) &rarr; rozwijamy w <strong>dodatnie</strong> potęgi.</div></div>
+<div class="step"><div class="step-num">3</div><div>$$\frac{1}{1-z} = \sum_{n=0}^{\infty} z^n$$</div></div>
+<div class="step"><div class="step-num">4</div><div>Mnożymy: \(-\frac{1}{z^2} \cdot \sum z^n = -\sum z^{n-2} = -z^{-2} - z^{-1} - 1 - z - z^2 - \dots\)</div></div>
+<div class="step"><div class="step-num">5</div><div><strong>Residuum w 0:</strong> współczynnik przy \(z^{-1}\) to \(-1\).</div></div>
+<div class="step"><div class="step-num">6</div><div><strong>Skąd bierze się \(-1\)?</strong> W szeregu \(-\sum_{n=0}^{\infty} z^{n-2}\) potęga \(z^{-1}\) pojawia się dla \(n-2=-1\), czyli \(n=1\). Otrzymujemy wtedy \(-z^{1-2}=-z^{-1}=(-1)z^{-1}\). Współczynnik przed \(z^{-1}\), a więc residuum, wynosi \(-1\).</div></div>
+<div class="step"><div class="step-num">7</div><div><strong>Po co liczymy je w tym przykładzie?</strong> Residuum pozwala od razu obliczyć całkę po dodatnio zorientowanym okręgu \(|z|=r\), gdzie \(0&lt;r&lt;1\). Wewnątrz takiego okręgu leży tylko punkt osobliwy \(z=0\), więc z twierdzenia o residuach:
+$$\int_{|z|=r}\frac{1}{(z-1)z^2}\,dz=2\pi i\,\operatorname{Res}(f,0)=2\pi i\cdot(-1)=-2\pi i.$$
+Nie musimy parametryzować okręgu i liczyć całki bezpośrednio.</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Przykład 2: Lista 7, Zad. 9</h2>
+<p>\(f(z) = \frac{1}{(z-a)(z-b)}\), \(0 < |a| < |b|\). Trzy regiony.</p>
+<div class="example">
+<p><strong>Najpierw rozkładamy funkcję na ułamki proste:</strong></p>
+<p>$$\frac{1}{(z-a)(z-b)}=\frac{A}{z-a}+\frac{B}{z-b}.$$</p>
+<p>Po pomnożeniu przez \((z-a)(z-b)\) mamy \(1=A(z-b)+B(z-a)\). Dla \(z=a\): \(A=\frac{1}{a-b}\). Dla \(z=b\): \(B=\frac{1}{b-a}\).</p>
+<p>Zatem $$f(z)=\frac{1}{a-b}\frac{1}{z-a}+\frac{1}{b-a}\frac{1}{z-b}.$$</p>
+</div>
+<div class="example">
+<p><strong>Region (a): \(|z| < |a|\)</strong></p>
+<div class="step"><div class="step-num">1</div><div>\(|z/a| < 1\) i \(|z/b| < 1\). Dla obu ułamków rozwijamy w dodatnie potęgi.</div></div>
+<div class="step"><div class="step-num">2</div><div>$$\frac{1}{z-a} = -\frac{1}{a} \cdot \frac{1}{1 - \frac{z}{a}} = -\frac{1}{a} \sum \left(\frac{z}{a}\right)^n$$</div></div>
+<div class="step"><div class="step-num">3</div><div>$$\frac{1}{z-b} = -\frac{1}{b} \cdot \frac{1}{1 - \frac{z}{b}} = -\frac{1}{b} \sum \left(\frac{z}{b}\right)^n$$</div></div>
+<div class="step"><div class="step-num">4</div><div>Mnożymy szeregi przez współczynniki z rozkładu i sumujemy:
+$$f(z)=-\frac{1}{a-b}\sum_{n=0}^{\infty}\frac{z^n}{a^{n+1}}-\frac{1}{b-a}\sum_{n=0}^{\infty}\frac{z^n}{b^{n+1}}.$$
+To szereg potęgowy (same nieujemne potęgi) &mdash; <strong>część główna znika</strong>, więc residuum = 0.</div></div>
+</div>
+<div class="example">
+<p><strong>Region (b): \(|a| < |z| < |b|\)</strong></p>
+<div class="step"><div class="step-num">1</div><div>\(|a/z| < 1\) (bo \(|z| > |a|\)), ale \(|z/b| < 1\) (bo \(|z| < |b|\)).</div></div>
+<div class="step"><div class="step-num">2</div><div>Dla \(\frac{1}{z-a}\): wyciągamy \(z\) przed nawias: $$\frac{1}{z} \cdot \frac{1}{1 - \frac{a}{z}} = \frac{1}{z} \sum \left(\frac{a}{z}\right)^n = \sum a^n z^{-n-1}$$ &rarr; <strong>ujemne potęgi</strong></div></div>
+<div class="step"><div class="step-num">3</div><div>Dla \(\frac{1}{z-b}\): jak w regionie (a) &rarr; <strong>dodatnie potęgi</strong></div></div>
+<div class="step"><div class="step-num">4</div><div>Mnożymy przez współczynniki i sumujemy:
+$$f(z)=\frac{1}{a-b}\sum_{n=0}^{\infty}a^n z^{-n-1}-\frac{1}{b-a}\sum_{n=0}^{\infty}\frac{z^n}{b^{n+1}}.$$
+Część główna pochodzi tylko od pierwszego ułamka.</div></div>
+</div>
+<div class="example">
+<p><strong>Region (c): \(|z| > |b|\)</strong></p>
+<div class="step"><div class="step-num">1</div><div>Obie \(|a/z| < 1\) i \(|b/z| < 1\). Dla obu rozwijamy w <strong>ujemne</strong> potęgi.</div></div>
+<div class="step"><div class="step-num">2</div><div>Po uwzględnieniu współczynników:
+$$f(z)=\frac{1}{a-b}\sum_{n=0}^{\infty}a^n z^{-n-1}+\frac{1}{b-a}\sum_{n=0}^{\infty}b^n z^{-n-1}.$$
+Wynik ma tylko ujemne potęgi. Wyrazy przy \(z^{-1}\) się redukują, bo \(\frac{1}{a-b}+\frac{1}{b-a}=0\).</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Przykład 3: Lista 7, zad. 10e</h2>
+<p>\(f(z) = \frac{\sin^2 z}{z^2}\) w \(0\)</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Użyj rozwinięcia \(\sin z=z-\frac{z^3}{3!}+\frac{z^5}{5!}-\cdots\).</div></div>
+<div class="step"><div class="step-num">2</div><div>Po podniesieniu do kwadratu: \(\sin^2z=z^2-\frac{z^4}{3}+\frac{2z^6}{45}-\cdots\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Dzielimy przez \(z^2\): $$f(z)=1-\frac{z^2}{3}+\frac{2z^4}{45}-\cdots.$$</div></div>
+<div class="step"><div class="step-num">4</div><div>Nie ma ujemnych potęg. Punkt \(0\) jest <strong>pozornie osobliwy</strong>, a residuum wynosi \(0\).</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Quiz &mdash; sprawdź się</h2>
+<div class="quiz">
+<div class="quiz-question">1. W pierścieniu \(|z| > 2\) rozwijamy \(\frac{1}{z-1}\). Jaką postać przyjmuje rozwinięcie?</div>
+<div class="quiz-options" data-answer="b">
+<button onclick="check(this)">a) \(\sum z^n\) (dodatnie potęgi)</button>
+<button onclick="check(this)">b) \(\sum z^{-n-1}\) (ujemne potęgi)</button>
+<button onclick="check(this)">c) Nie da się rozwinąć</button>
+</div>
+<div class="feedback" id="fb1"></div>
+</div>
+
+<div class="quiz" style="margin-top:1.5rem;">
+<div class="quiz-question">2. W szeregu Laurenta \(f(z) = z^{-2} + 3z^{-1} + 2 + 5z\) residuum w \(0\) wynosi:</div>
+<div class="quiz-options" data-answer="a">
+<button onclick="check(this)">a) \(3\)</button>
+<button onclick="check(this)">b) \(2\)</button>
+<button onclick="check(this)">c) \(5\)</button>
+</div>
+<div class="feedback" id="fb2"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Twoja kolej</h2>
+<p>Weź <strong>Lista 7, zadanie 8b</strong> (\(f(z) = \frac{1}{(z-1)z^2}\) w otoczeniu \(z = 1\)) i spróbuj rozwinąć samodzielnie. Następnie oblicz residuum w \(z = 1\).</p>
+<details class="hint"><summary>Strategia</summary><p>Podstaw \(w = z-1\). Wtedy \(z = w+1\) i \(f = \frac{1}{w \cdot (w+1)^2}\). Rozłóż na ułamki proste w \(w\), potem rozwijaj \(\frac{1}{(w+1)^2}\) w szereg potęgowy (pochodna szeregu geometrycznego).</p></details>
+<details class="hint"><summary>Krok 1: podstawienie</summary><p>\(f = \frac{1}{w(w+1)^2}\). Rozkład: \(\frac{1}{w(w+1)^2} = \frac{A}{w} + \frac{B}{w+1} + \frac{C}{(w+1)^2}\). Mnożąc przez \(w(w+1)^2\): \(1 = A(w+1)^2 + Bw(w+1) + Cw\). Dla \(w=0\): \(A=1\). Dla \(w=-1\): \(C=-1\). Porównując współczynniki przy \(w^2\): \(A+B=0\), więc \(B=-1\).</p></details>
+<details class="hint"><summary>Krok 2: rozwinięcie</summary><p>\(f = \frac{1}{w} - \frac{1}{w+1} - \frac{1}{(w+1)^2}\). Dla \(0 < |w| < 1\): \(\frac{1}{w+1} = \sum_{n=0}^{\infty} (-1)^n w^n\), a \(\frac{1}{(w+1)^2} = -\frac{d}{dw}\frac{1}{w+1} = \sum_{n=1}^{\infty} (-1)^{n+1} n w^{n-1}\). Residuum (współczynnik przy \(w^{-1}\)) = \(1\).</p></details>
+<p style="margin-top:1rem;font-size:0.9rem;">Jeśli utkniesz &mdash; zapytaj mnie o konkretny krok.</p>
+</div>
+
+<div class="nav">
+<p>Poprzednia lekcja: <a href="0001-promien-zbieznosci-szeregu-potegowego.html">Promień zbieżności</a> | Następna lekcja: <a href="0003-calki-przez-residua.html">Całki przez residua</a></p>
+<p class="open-cmd">Otwórz w przeglądarce: <code>google-chrome lessons/0002-rozwinięcie-w-szereg-laurenta.html</code></p>
+</div>
+
+<script src="quiz.js"></script>
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

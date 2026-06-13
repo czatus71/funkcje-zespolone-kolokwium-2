@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ściągawka: Całki przez residua</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<style>
+body { font-family: 'Georgia', serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; color: #222; }
+h1 { font-size: 1.8rem; border-bottom: 2px solid #333; padding-bottom: 0.3rem; }
+h2 { font-size: 1.3rem; margin-top: 1.5rem; color: #444; }
+.box { background: #f8f9fa; border-left: 4px solid #0066cc; padding: 1rem; margin: 1rem 0; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+th { background: #eee; }
+ul { margin-top: 0.5rem; }
+@media print { body { max-width: 100%; margin: 0; } .box { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<h1>Ściągawka: Całki przez residua</h1>
+
+<h2>Twierdzenie o residuach (całki konturowe)</h2>
+<div class="box">
+<p>Jeśli \(f\) jest holomorficzna w obszarze \(V\) poza skończoną liczbą punktów osobliwych \(z_1, \dots, z_n\), i \(\Gamma\) to krzywa zamknięta dodatnio zorientowana w \(V\), to:</p>
+<p>$$\int_\Gamma f(z)\, dz = 2\pi i \sum_{k=1}^{n} \operatorname{Res}_{z_k} f$$</p>
+<p><strong>Druga wersja (residuum w \(\infty\)):</strong></p>
+<p>$$\sum_{k} \operatorname{Res}_{z_k} f = -\operatorname{Res}_\infty f$$</p>
+<p>Przydatne, gdy punkty osobliwe wewnątrz są trudne, a w \(\infty\) jest prosto.</p>
+</div>
+
+<h2>Schemat: całki niewłaściwe rzeczywiste</h2>
+<div class="box">
+<p><strong>Typ 1:</strong> \(I = \int_{-\infty}^{\infty} \frac{P(x)}{Q(x)}\, dx\)</p>
+<p>Wymagania: \(\deg Q \geq \deg P + 2\), \(Q(x) \neq 0\) na \(\mathbb{R}\).</p>
+<p>Kontur: odcinek \([-R, R]\) + półokrąg \(C_R\) w górnej półpłaszczyźnie.</p>
+<p>$$I = 2\pi i \sum_{\Im z_k > 0} \operatorname{Res}_{z_k} \frac{P(z)}{Q(z)}$$</p>
+<p><strong>Warunek szacowania:</strong> Dla \(|z| \geq R\), \(|f(z)| \leq \frac{C}{|z|^\alpha}\), gdzie \(\alpha > 1\).</p>
+<p>Alternatywnie: \(\lim_{z \to \infty} zf(z) = 0\).</p>
+</div>
+
+<div class="box">
+<p><strong>Typ 2:</strong> \(I = \int_{-\infty}^{\infty} \frac{P(x)\sin x}{Q(x)}\, dx\) lub z \(\cos x\)</p>
+<p>Nie bierzemy \(f(z) = \frac{P(z)\cos z}{Q(z)}\) — bo \(\cos z\) jest nieograniczona w górnej półpłaszczyźnie!</p>
+<p>Zamiast tego: \(f(z) = \frac{P(z)}{Q(z)} \cdot e^{iz}\)</p>
+<p>\(\sin x = \Im(e^{ix})\), \(\cos x = \Re(e^{ix})\) dla \(x \in \mathbb{R}\).</p>
+<p>$$\int_{-\infty}^{\infty} \frac{P(x)e^{ix}}{Q(x)}\, dx = 2\pi i \sum_{\Im z_k > 0} \operatorname{Res}_{z_k} \frac{P(z)e^{iz}}{Q(z)}$$</p>
+<p><strong>Szacowanie na półokręgu (Lemat Jordana):</strong> Dla \(\Im z \geq 0\) i \(|z| \to \infty\), jeśli \(|f(z)| \to 0\), to:</p>
+<p>$$\left|\int_{C_R} f(z)e^{iz}\, dz\right| \to 0$$</p>
+</div>
+
+<h2>Algorytm krok po kroku</h2>
+<table>
+<tr><th>Krok</th><th>Co zrobić</th></tr>
+<tr><td>1</td><td>Zdefiniuj \(f(z)\) — zamień \(x\) na \(z\), \(\sin x\) na \(e^{iz}\), \(\cos x\) na \(e^{iz}\)</td></tr>
+<tr><td>2</td><td>Znajdź wszystkie bieguny \(f(z)\) w górnej półpłaszczyźnie (\(\Im z > 0\))</td></tr>
+<tr><td>3</td><td>Oblicz residua w tych biegunach</td></tr>
+<tr><td>4</td><td>Sprawdź założenia szacowania (\(|f(z)| \leq C/|z|^\alpha\), \(\alpha > 1\), lub lemat Jordana dla \(e^{iz}\))</td></tr>
+<tr><td>5</td><td>Wynik: \(2\pi i \sum \text{residua}\)</td></tr>
+<tr><td>6</td><td>Jeśli było \(e^{iz}\), wyciągnij \(\Re\) lub \(\Im\) wyniku</td></tr>
+</table>
+
+<h2>Typowe szacowania</h2>
+<div class="box">
+<p><strong>Szacowanie \(|1/(z^2 + a^2)|\) na \(|z| = R\):</strong></p>
+<p>\(|z^2 + a^2| \geq |z^2| - a^2 = R^2 - a^2\), więc \(|1/(z^2+a^2)| \leq 1/(R^2 - a^2)\).</p>
+<p><strong>Szacowanie \(|e^{iz}|\) na górnej półpłaszczyźnie:</strong></p>
+<p>\(z = x + iy\), \(y \geq 0\) \(\Rightarrow\) \(|e^{iz}| = |e^{ix-y}| = e^{-y} \leq 1\).</p>
+</div>
+
+<p style="margin-top:2rem; font-size:0.9rem; color:#666;">Ściągawka do szybkiego druku. Otwórz w przeglądarce i wydrukuj (Ctrl+P).</p>
+
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

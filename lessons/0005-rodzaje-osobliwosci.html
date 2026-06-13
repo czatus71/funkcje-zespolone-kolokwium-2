@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lekcja 5: Rodzaje osobliwości i obliczanie residuów</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../katex/katex.min.css">
+</head>
+<body>
+
+<header>
+<span class="lesson-num">Lekcja 5 z 6</span>
+<h1>Rodzaje osobliwości i obliczanie residuów</h1>
+<p>Przygotowanie do kolokwium &mdash; Funkcje zespolone (Listy 6-9)</p>
+<nav class="progress-bar">
+<a href="0001-promien-zbieznosci-szeregu-potegowego.html" class="done"></a>
+<a href="0002-rozwinięcie-w-szereg-laurenta.html" class="done"></a>
+<a href="0003-calki-przez-residua.html" class="done"></a>
+<a href="0004-zasada-maksimum-rouche.html" class="done"></a>
+<a href="0005-rodzaje-osobliwosci.html" class="active"></a>
+<a href="0006-niszowe-schematy-zadan.html"></a>
+</nav>
+</header>
+
+<section class="card">
+<h2>Cel lekcji</h2>
+<p>Po tej lekcji rozpoznasz rodzaj osobliwości funkcji w punkcie \(z_0\) i dobierzesz najszybszą metodę obliczenia residuum.</p>
+</section>
+
+<section class="card">
+<h2>Szybka klasyfikacja &mdash; algorytm decyzyjny</h2>
+<p>Dla funkcji \(f\) holomorficznej w \(0 &lt; |z-z_0| &lt; r\):</p>
+<div class="block">
+<div class="step"><div class="step-num">1</div><div>Najpierw skróć wspólne zera licznika i mianownika. Najszybciej porównaj ich rzędy przez szeregi Taylora.</div></div>
+<div class="step"><div class="step-num">2</div><div>Jeśli po skróceniu funkcja ma skończoną granicę, osobliwość jest <strong>pozorna</strong>. Jej residuum wynosi \(0\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Jeśli dla najmniejszego \(k\geq1\) granica \(\lim_{z\to z_0}(z-z_0)^kf(z)\) jest skończona i niezerowa, mamy <strong>biegun rzędu \(k\)</strong>.</div></div>
+<div class="step"><div class="step-num">4</div><div>Jeśli żadna potęga nie usuwa osobliwości, rozwiń funkcję w szereg Laurenta. Nieskończenie wiele ujemnych potęg oznacza osobliwość istotną.</div></div>
+</div>
+<div class="warning">
+<p><strong>Skrót myślowy:</strong> Jeśli \(f(z) = g(z)/h(z)\) i \(h(z_0) = 0\), to:</p>
+<ul>
+<li>\(h'(z_0) \neq 0\) i \(g(z_0) \neq 0\) &rarr; biegun rzędu 1</li>
+<li>jeśli licznik ma zero rzędu \(m\), a mianownik rzędu \(n\), to dla \(n>m\) biegun ma rząd \(n-m\); dla \(n\leq m\) osobliwość jest pozorna</li>
+</ul>
+</div>
+</section>
+
+<section class="card">
+<h2>Przykład 1: Pozorna osobliwość</h2>
+<p>\(f(z) = \frac{1-\cos z}{z^2}\) w \(z_0 = 0\)</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Granica: \(\lim_{z\to 0} \frac{1-\cos z}{z^2} = \lim_{z\to 0} \frac{\sin z}{2z} = \frac{1}{2}\) (skończona!)</div></div>
+<div class="step"><div class="step-num">2</div><div>Stąd: <strong>pozorna osobliwość</strong>.</div></div>
+<div class="step"><div class="step-num">3</div><div>Residuum w 0: <strong>0</strong> (zawsze dla pozornej).</div></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Przykład 2: Biegun rzędu 1</h2>
+<p>\(f(z) = \frac{1}{\sin z}\) w \(z_0 = 0\)</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Granica: \(\lim_{z\to 0} \frac{1}{\sin z} = \infty\). Sprawdźmy \(\lim_{z\to 0} z \cdot \frac{1}{\sin z} = 1 \neq 0\). To <strong>biegun rzędu 1</strong>.</div></div>
+<div class="step"><div class="step-num">2</div><div>Residuum: \(\operatorname{Res}_0 f = \lim_{z\to 0} z \cdot \frac{1}{\sin z} = 1\)</div></div>
+</div>
+<div class="warning">
+<p><strong>Uwaga:</strong> Dla \(\frac{z}{\sin z}\) granica w zerze wynosi \(1\), więc osobliwość jest pozorna. Zawsze porównuj rzędy zer licznika i mianownika.</p>
+</div>
+</section>
+
+<section class="card">
+<h2>Przykład 3: Biegun rzędu 1 ze wzoru ułamka (Lista 8, Zad. 1d)</h2>
+<p>\(f(z) = \frac{1+e^z}{1-e^z}\) w \(z_0 = 0\)</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Niech \(h(z) = 1 - e^z\). \(h(0) = 0\), \(h'(z) = -e^z\), \(h'(0) = -1 \neq 0\). To jest zero rzędu 1 mianownika.</div></div>
+<div class="step"><div class="step-num">2</div><div>Licznik: \(g(z) = 1 + e^z\), \(g(0) = 2 \neq 0\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Stąd: <strong>biegun rzędu 1</strong> (bo mianownik ma zero rzędu 1, licznik nie zeruje się).</div></div>
+<div class="step"><div class="step-num">4</div><div>Residuum (wzór ułamka prostego): \(\operatorname{Res}_0 f = \frac{g(0)}{h'(0)} = \frac{2}{-1} = -2\)</div></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Przykład 4: Istotnie osobliwy</h2>
+<p>\(f(z) = e^{1/z}\) w \(z_0 = 0\)</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Granica: \(\lim_{z\to 0} e^{1/z}\). Dla \(z = x > 0\): \(\to \infty\). Dla \(z = x < 0\): \(\to 0\). Granica nie istnieje.</div></div>
+<div class="step"><div class="step-num">2</div><div>To <strong>istotnie osobliwy</strong>. Nie da się użyć wzoru z potęgą \((z-z_0)^k\).</div></div>
+<div class="step"><div class="step-num">3</div><div>Rozwijamy w szereg Laurenta: \(e^{1/z} = \sum_{n=0}^{\infty} \frac{1}{n!} z^{-n} = 1 + \frac{1}{z} + \frac{1}{2!z^2} + \dots\)</div></div>
+<div class="step"><div class="step-num">4</div><div>Współczynnik przy \(z^{-1}\): \(a_{-1} = 1\). Stąd Residuum = <strong>1</strong>.</div></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Przykład 5: W nieskończoności (Lista 8, Zad. 2)</h2>
+<p>\(f(z) = z + z^3\) &mdash; osobliwość w \(\infty\)</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Badamy \(f(1/z) = \frac{1}{z} + \frac{1}{z^3} = \frac{z^2 + 1}{z^3}\)</div></div>
+<div class="step"><div class="step-num">2</div><div>W \(z = 0\): \(f(1/z)\) ma biegun rzędu 3. Więc \(f\) ma <strong>biegun rzędu 3 w \(\infty\)</strong>.</div></div>
+<div class="step"><div class="step-num">3</div><div>Residuum w \(\infty\): \(\operatorname{Res}_\infty f = -\operatorname{Res}_0 \bigl[\frac{1}{z^2} f(\frac{1}{z})\bigr] = -\operatorname{Res}_0 \bigl[\frac{1}{z^2}(\frac{1}{z} + \frac{1}{z^3})\bigr] = -\operatorname{Res}_0 \bigl[\frac{1}{z^3} + \frac{1}{z^5}\bigr] = 0\)</div></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Quiz &mdash; sprawdź się</h2>
+<div class="quiz">
+<div class="quiz-question">1. \(f(z) = \frac{z}{\sin z}\) w \(z = 0\). Jaki to rodzaj osobliwości?</div>
+<div class="quiz-options" data-answer="a">
+<button onclick="check(this)">a) Pozorna (Res = 0)</button>
+<button onclick="check(this)">b) Biegun rzędu 1 (Res = 1)</button>
+<button onclick="check(this)">c) Istotnie osobliwy</button>
+</div>
+<div class="feedback" id="fb1"></div>
+</div>
+<div class="quiz">
+<div class="quiz-question">2. \(f(z) = \frac{1}{(z^2+1)^2}\) w \(z = i\). Residuum wynosi:</div>
+<div class="quiz-options" data-answer="a">
+<button onclick="check(this)">a) \(\frac{1}{4i}\)</button>
+<button onclick="check(this)">b) \(-\frac{1}{4i}\)</button>
+<button onclick="check(this)">c) \(0\)</button>
+</div>
+<div class="feedback" id="fb2"></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Twoja kolej</h2>
+<p>Weź <strong>Lista 8, zadanie 1</strong> (lub 3) i spróbuj samodzielnie określić rodzaj osobliwości i obliczyć residua. Jeśli utkniesz &mdash; zapytaj mnie o konkretny podpunkt.</p>
+</section>
+
+<nav class="nav">
+<p>Poprzednia lekcja: <a href="0004-zasada-maksimum-rouche.html">Zasada maksimum, Schwarz i Rouche</a> &middot; Następna lekcja: <a href="0006-niszowe-schematy-zadan.html">Niszowe schematy zadań</a></p>
+<p class="open-cmd">Otwórz w przeglądarce: <code>google-chrome lessons/0005-rodzaje-osobliwosci.html</code></p>
+</nav>
+
+<script src="quiz.js"></script>
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

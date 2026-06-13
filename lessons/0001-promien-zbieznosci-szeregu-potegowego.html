@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lekcja 1: Promień zbieżności szeregu potęgowego</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../katex/katex.min.css">
+</head>
+<body>
+
+<header>
+<span class="lesson-num">Lekcja 1 z 6</span>
+<h1>Promień zbieżności szeregu potęgowego</h1>
+<p>Przygotowanie do kolokwium &mdash; Funkcje zespolone (Listy 6-9)</p>
+<nav class="progress-bar">
+<a href="0001-promien-zbieznosci-szeregu-potegowego.html" class="active"></a>
+<a href="0002-rozwinięcie-w-szereg-laurenta.html"></a>
+<a href="0003-calki-przez-residua.html"></a>
+<a href="0004-zasada-maksimum-rouche.html"></a>
+<a href="0005-rodzaje-osobliwosci.html"></a>
+<a href="0006-niszowe-schematy-zadan.html"></a>
+</nav>
+</header>
+
+<div class="card">
+<h2>Cel lekcji</h2>
+<p>Po tej lekcji będziesz potrafił(a) w <strong>3 minuty</strong> wyznaczyć promień zbieżności dowolnego szeregu potęgowego i zbadać, co dzieje się na brzegu koła zbieżności.</p>
+</div>
+
+<div class="card">
+<h2>Wzory &mdash; który użyć?</h2>
+<p>Dla szeregu \(\sum a_n(z - z_0)^n\) promień \(R\) znajdujemy wzorem:</p>
+<div class="block">
+<p><strong>1. Wzór Cauchy'ego-Hadamarda (zawsze działa):</strong></p>
+<p>$$R = \frac{1}{\limsup_{n\to\infty} |a_n|^{1/n}}$$</p>
+<p><strong>2. Wzór z ilorazu (gdy granica istnieje):</strong></p>
+<p>$$R = \lim_{n\to\infty} \left|\frac{a_n}{a_{n+1}}\right|$$</p>
+</div>
+<div class="warning">
+<p><strong>UWAGA:</strong> Jeśli w szeregu brakuje wyrazów parzystych lub nieparzystych (np. \(\sum a_n z^{2n}\)), wzór z ilorazu <em>może dać zły wynik</em>. Wtedy podstaw \(w = z^2\) i znajdź promień szeregu \(\sum a_n w^n\).</p>
+<p><strong>Jak przeliczyć promień na \(z\)?</strong> Jeśli szereg zmiennej \(w\) zbiega się dla \(|w|&lt;R_w\), to po powrocie do \(z\) mamy:</p>
+<p>$$|z^2|&lt;R_w \iff |z|^2&lt;R_w \iff |z|&lt;\sqrt{R_w}.$$</p>
+<p>Zatem \(R_z=\sqrt{R_w}\). Ogólniej: dla podstawienia \(w=z^k\) otrzymujemy \(R_z=\sqrt[k]{R_w}\).</p>
+<p><strong>Przykład:</strong> rozważmy \(\sum_{n=0}^{\infty}\frac{z^{2n}}{2^n}\). Po podstawieniu \(w=z^2\) dostajemy szereg geometryczny \(\sum (w/2)^n\). Zbiega on, gdy \(|w/2|&lt;1\), czyli \(|w|&lt;2\). Stąd \(R_w=2\), a więc \(R_z=\sqrt{2}\).</p>
+<p><strong>Co pójdzie źle bez podstawienia?</strong> Możesz błędnie uznać, że współczynnik przy \(z^n\) wynosi \(a_n=1/2^n\). Wtedy wzór z ilorazu da:</p>
+<p>$$\left|\frac{a_n}{a_{n+1}}\right|=\frac{1/2^n}{1/2^{n+1}}=2,$$</p>
+<p>czyli fałszywy wynik \(R=2\). Ten zapis pomija jednak fakt, że w szeregu występują tylko potęgi \(z^{2n}\).</p>
+<p>Poprawne współczynniki szeregu względem kolejnych potęg \(z^m\) to \(c_{2n}=1/2^n\) oraz \(c_{2n+1}=0\). Ilorazy \(|c_m/c_{m+1}|\) są wtedy na przemian nieokreślone albo równe \(0\). Granica nie istnieje, więc wzoru z ilorazu nie wolno użyć.</p>
+</div>
+<div class="warning">
+<p><strong>Kontrola ilorazu:</strong> Jeśli liczysz \(\lim |a_{n+1}/a_n|=L\), to \(R=1/L\). Jeśli liczysz \(\lim |a_n/a_{n+1}|\), otrzymujesz bezpośrednio \(R\).</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Intuicja: dlaczego ten wzór działa?</h2>
+<p>Szereg potęgowy zbiega się, gdy kolejne wyrazy maleją geometrycznie. Dla dużych \(n\) stosunek kolejnych wyrazów wynosi:</p>
+<div class="block">
+<p>$$\left|\frac{a_{n+1} z^{n+1}}{a_n z^n}\right| \approx |a_n|^{1/n} \cdot |z|$$</p>
+</div>
+<p>Jeśli \(|a_n|^{1/n} \cdot |z| < 1\), to szereg zbiega się (wyrazy maleją). Jeśli \(> 1\), to rozbiega się (wyrazy rosną). Granica \(|a_n|^{1/n}\) mierzy &bdquo;szybkość wzrostu&rdquo; współczynników &mdash; im większe, tym szybciej rosną i tym mniejszy promień zbieżności.</p>
+<div class="warning">
+<p><strong>NIE MYL Z WZOREM Z ILORAZU!</strong> Wzór \(R = \lim |a_n/a_{n+1}|\) działa tylko gdy granica istnieje. Przy &bdquo;dziurach&rdquo; w szeregu (np. \(\sum a_n z^{2n}\)) wzór z ilorazu może dać zły wynik &mdash; wtedy zawsze używaj Cauchy'ego-Hadamarda lub podstawienia \(w = z^k\).</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Przykład 1: klasyczny promień (Lista 6, zad. 4a)</h2>
+<p>$$\sum_{n=0}^{\infty} \frac{1}{(3 - 4i)^n} \cdot (z - 4i)^n$$</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Wzór: \(a_n = \frac{1}{(3 - 4i)^n}\)</div></div>
+<div class="step"><div class="step-num">2</div><div>Obliczamy \(|a_n|^{1/n} = \left|\frac{1}{(3 - 4i)^n}\right|^{1/n} = \frac{1}{|3 - 4i|} = \frac{1}{5}\)</div></div>
+<div class="step"><div class="step-num">3</div><div>Stąd \(R = \frac{1}{1/5} = 5\)</div></div>
+<div class="step"><div class="step-num">4</div><div>Brzeg: \(|z - 4i| = 5\). Wyraz szeregu ma wtedy moduł \(1\), więc nie dąży do zera. Szereg jest <strong>rozbieżny w każdym punkcie brzegu</strong>.</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Przykład 2: szereg z &bdquo;dziurami&rdquo; (Lista 6, zad. 4b)</h2>
+<p>$$\sum_{n=1}^{\infty} \frac{i^n \cdot z^{3n}}{n(1+i)}$$</p>
+<div class="example">
+<div class="step"><div class="step-num">1</div><div>Widzimy \(z^{3n}\) &mdash; podstawiamy \(w = z^3\)</div></div>
+<div class="step"><div class="step-num">2</div><div>Szereg zmiennej \(w\): \(\sum \frac{i^n}{n(1+i)} \cdot w^n\)</div></div>
+<div class="step"><div class="step-num">3</div><div>\(a_n = \frac{i^n}{n(1+i)}\). Używamy ilorazu: \(\left|\frac{a_n}{a_{n+1}}\right| = \left|\frac{i^n}{n(1+i)} \cdot \frac{(n+1)(1+i)}{i^{n+1}}\right| = \frac{n+1}{n} \cdot \frac{1}{|i|} = \frac{n+1}{n} \to 1\)</div></div>
+<div class="step"><div class="step-num">4</div><div>Promień względem \(w\): \(R_w = 1\), więc \(|w| < 1 \Rightarrow |z^3| < 1 \Rightarrow |z| < 1\). Promień \(R = 1\).</div></div>
+<div class="step"><div class="step-num">5</div><div>Na brzegu \(|z|=1\) mamy \(\sum \frac{(iz^3)^n}{n(1+i)}\). Gdy \(iz^3=1\), dostajemy wielokrotność szeregu harmonicznego, więc szereg jest rozbieżny. Dzieje się tak dla trzech punktów spełniających \(z^3=-i\).</div></div>
+<div class="step"><div class="step-num">6</div><div>
+<p>Rozważmy pozostałe punkty brzegu, czyli \(|z|=1\) oraz \(iz^3\neq1\). Oznaczmy \(q=iz^3\). Ponieważ \(|i|=1\) i \(|z|=1\), mamy \(|q|=1\).</p>
+<p>Badany szereg ma postać:</p>
+<p>$$\frac{1}{1+i}\sum_{n=1}^{\infty}\frac{q^n}{n}.$$</p>
+<p>Stosujemy kryterium Dirichleta. Ciąg \(1/n\) maleje i dąży do \(0\). Musimy jeszcze sprawdzić, czy sumy częściowe ciągu \(q^n\) są ograniczone.</p>
+<p>Dla \(q\neq1\) korzystamy ze wzoru na sumę geometryczną:</p>
+<p>$$S_N=\sum_{n=1}^{N}q^n=\frac{q(1-q^N)}{1-q}.$$</p>
+<p>Ponieważ \(|q|=|q^N|=1\), otrzymujemy:</p>
+<p>$$\begin{aligned}
+|S_N|
+&=\left|\frac{q(1-q^N)}{1-q}\right|\\
+&=\frac{|q|\,|1-q^N|}{|1-q|}\\
+&\leq\frac{|q|(1+|q^N|)}{|1-q|}\\
+&=\frac{1\cdot(1+1)}{|1-q|}
+=\frac{2}{|1-q|}.
+\end{aligned}$$</p>
+<p>W trzeciej linii użyliśmy nierówności trójkąta: \(|1-q^N|\leq|1|+|-q^N|=1+|q^N|\).</p>
+<p>Ta granica nie zależy od \(N\), więc sumy częściowe są ograniczone. Kryterium Dirichleta daje zbieżność szeregu.</p>
+<p>Zbieżność nie jest bezwzględna, ponieważ na brzegu:</p>
+<p>$$\sum_{n=1}^{\infty}\left|\frac{q^n}{n(1+i)}\right|
+=\frac{1}{|1+i|}\sum_{n=1}^{\infty}\frac{1}{n},$$</p>
+<p>a szereg harmoniczny jest rozbieżny. Zatem dla \(|z|=1\) i \(iz^3\neq1\) szereg jest <strong>zbieżny warunkowo</strong>.</p>
+</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Ściąga: kryteria zbieżności szeregów</h2>
+<p>Najpierw sprawdź warunek konieczny. Potem dobierz kryterium do postaci wyrazów szeregu.</p>
+
+<div class="block">
+<p><strong>1. Warunek konieczny</strong></p>
+<p>Jeśli szereg \(\sum u_n\) jest zbieżny, to \(u_n\to0\). Dlatego:</p>
+<p>$$u_n\not\to0\quad\Longrightarrow\quad\sum u_n\text{ jest rozbieżny}.$$</p>
+<p>Warunek \(u_n\to0\) nie wystarcza do zbieżności. Przykładem jest rozbieżny szereg harmoniczny \(\sum 1/n\).</p>
+</div>
+
+<div class="block">
+<p><strong>2. Kryterium porównawcze</strong></p>
+<p>Stosuj je do szeregów o wyrazach nieujemnych lub do modułów \(|u_n|\).</p>
+<p>Jeśli \(0\leq a_n\leq b_n\) i \(\sum b_n\) jest zbieżny, to \(\sum a_n\) też jest zbieżny.</p>
+<p>Jeśli \(0\leq b_n\leq a_n\) i \(\sum b_n\) jest rozbieżny, to \(\sum a_n\) też jest rozbieżny.</p>
+<p>Najczęściej porównujemy z \(\sum 1/n^p\), który jest zbieżny dokładnie dla \(p&gt;1\).</p>
+</div>
+
+<div class="block">
+<p><strong>3. Kryterium ilorazowe d'Alemberta</strong></p>
+<p>Oblicz:</p>
+<p>$$L=\lim_{n\to\infty}\left|\frac{u_{n+1}}{u_n}\right|.$$</p>
+<p>Gdy \(L&lt;1\), szereg jest zbieżny bezwzględnie. Gdy \(L&gt;1\), jest rozbieżny. Dla \(L=1\) kryterium nie rozstrzyga.</p>
+<p>To kryterium jest wygodne przy silniach, potęgach i iloczynach.</p>
+</div>
+
+<div class="block">
+<p><strong>4. Kryterium pierwiastkowe Cauchy'ego</strong></p>
+<p>Oblicz:</p>
+<p>$$L=\limsup_{n\to\infty}\sqrt[n]{|u_n|}.$$</p>
+<p>Gdy \(L&lt;1\), szereg jest zbieżny bezwzględnie. Gdy \(L&gt;1\), jest rozbieżny. Dla \(L=1\) kryterium nie rozstrzyga.</p>
+<p>To kryterium dobrze działa, gdy cały wyraz jest podniesiony do potęgi \(n\).</p>
+</div>
+
+<div class="block">
+<p><strong>5. Zbieżność bezwzględna</strong></p>
+<p>Jeśli \(\sum |u_n|\) jest zbieżny, to \(\sum u_n\) także jest zbieżny. Odwrotne zdanie nie zawsze jest prawdziwe.</p>
+<p>Jeśli \(\sum u_n\) jest zbieżny, ale \(\sum|u_n|\) rozbieżny, mówimy o <strong>zbieżności warunkowej</strong>.</p>
+</div>
+
+<div class="block">
+<p><strong>6. Kryterium Leibniza</strong></p>
+<p>Dla szeregu naprzemiennego \(\sum(-1)^n b_n\) wystarczy, że \(b_n\geq0\), ciąg \(b_n\) maleje i \(b_n\to0\).</p>
+<p>Przykład: \(\sum(-1)^{n+1}/n\) jest zbieżny warunkowo.</p>
+</div>
+
+<div class="block">
+<p><strong>7. Kryterium Dirichleta</strong></p>
+<p>Szereg \(\sum a_n b_n\) jest zbieżny, jeśli:</p>
+<p>1. sumy częściowe \(A_N=\sum_{n=1}^{N}a_n\) są ograniczone,</p>
+<p>2. ciąg \(b_n\) maleje i dąży do \(0\).</p>
+<p>W tej lekcji wybieramy \(a_n=q^n\) oraz \(b_n=1/n\). Dla \(|q|=1\) i \(q\neq1\):</p>
+<p>$$\begin{aligned}
+\left|\sum_{n=1}^{N}q^n\right|
+&=\left|\frac{q(1-q^N)}{1-q}\right|\\
+&=\frac{|q|\,|1-q^N|}{|1-q|}\\
+&\leq\frac{|q|(1+|q^N|)}{|1-q|}\\
+&=\frac{2}{|1-q|}.
+\end{aligned}$$</p>
+<p>Korzystamy tu z nierówności trójkąta \(|1-q^N|\leq1+|q^N|\) oraz z równości \(|q|=|q^N|=1\).</p>
+<p>Sumy częściowe \(q^n\) są więc ograniczone, a \(1/n\searrow0\). Zatem \(\sum q^n/n\) jest zbieżny.</p>
+</div>
+
+<div class="warning">
+<p><strong>Jak wybrać kryterium?</strong> Silnie i potęgi: iloraz. Wyrażenie do potęgi \(n\): pierwiastek. Wyrazy dodatnie podobne do \(1/n^p\): porównanie. Znak naprzemienny: Leibniz. Czynnik oscylujący, np. \(q^n\), pomnożony przez ciąg malejący do zera: Dirichlet.</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Ściąga: suma geometryczna</h2>
+<p>Wzór zależy od tego, czy dodajesz skończenie, czy nieskończenie wiele wyrazów. Ważny jest też pierwszy indeks.</p>
+
+<div class="block">
+<p><strong>Suma skończona od \(n=0\) do \(N\):</strong></p>
+<p>$$1+q+q^2+\ldots+q^N
+=\sum_{n=0}^{N}q^n
+=\frac{1-q^{N+1}}{1-q},\qquad q\neq1.$$</p>
+</div>
+
+<div class="block">
+<p><strong>Suma skończona od \(n=1\) do \(N\):</strong></p>
+<p>$$q+q^2+\ldots+q^N
+=\sum_{n=1}^{N}q^n
+=\frac{q(1-q^N)}{1-q},\qquad q\neq1.$$</p>
+</div>
+
+<div class="warning">
+<p><strong>UWAGA: \(q\neq1\) to nie to samo co \(|q|&lt;1\).</strong></p>
+<p>Wzór na <strong>skończoną</strong> sumę geometryczną wymaga tylko \(q\neq1\). Ten warunek chroni nas przed dzieleniem przez \(1-q=0\).</p>
+<p>Warunek \(|q|&lt;1\) jest potrzebny dopiero dla <strong>sumy nieskończonej</strong>. Zapewnia on, że \(q^N\to0\).</p>
+<p>Nie piszemy \(q&lt;1\), gdy \(q\) jest liczbą zespoloną. Liczb zespolonych nie porównujemy znakami \(&lt;\) i \(&gt;\). Porównujemy ich moduły, na przykład \(|q|&lt;1\).</p>
+</div>
+
+<div class="block">
+<p><strong>Suma nieskończona od \(n=0\):</strong></p>
+<p>$$\sum_{n=0}^{\infty}q^n=\frac{1}{1-q},
+\qquad\text{ale tylko dla }|q|&lt;1.$$</p>
+<p>Wynika to ze wzoru na sumę skończoną. Gdy \(|q|&lt;1\), mamy \(q^{N+1}\to0\).</p>
+</div>
+
+<div class="block">
+<p><strong>Suma nieskończona od \(n=1\):</strong></p>
+<p>$$\sum_{n=1}^{\infty}q^n=\frac{q}{1-q},
+\qquad\text{ale tylko dla }|q|&lt;1.$$</p>
+</div>
+
+<div class="warning">
+<p><strong>W kryterium Dirichleta:</strong> mamy \(|q|=1\), więc szereg geometryczny \(\sum q^n\) nie jest zbieżny. Nie wolno przypisać mu sumy \(1/(1-q)\) ani \(q/(1-q)\).</p>
+<p>Używamy tylko skończonych sum częściowych:</p>
+<p>$$S_N=\sum_{n=1}^{N}q^n=\frac{q(1-q^N)}{1-q}.$$</p>
+<p>Nie muszą one mieć granicy. Kryterium Dirichleta wymaga jedynie, aby były ograniczone.</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Algorytm: brzeg koła</h2>
+<div class="block">
+<p>Gdy już znasz \(R\), badasz brzeg \(|z - z_0| = R\). Postępuj krok po kroku:</p>
+</div>
+<div class="step"><div class="step-num">1</div><div>
+<p><strong>Wstaw punkt brzegu.</strong> Zapisz \(z-z_0=Re^{it}\). Warunek konieczny sprawdzaj dla pełnego wyrazu, ponieważ wynik może zależeć od \(t\).</p>
+<p><strong>Przykład:</strong> dla \(\sum \frac{i^nz^{3n}}{n(1+i)}\) mamy \(R=1\), więc na brzegu \(z=e^{it}\). Wtedy:</p>
+<p>$$iz^3=ie^{3it}=:q,\qquad |q|=1,$$</p>
+<p>a szereg przyjmuje postać \(\frac{1}{1+i}\sum q^n/n\).</p>
+</div></div>
+<div class="step"><div class="step-num">2</div><div>
+<p><strong>Sprawdź zbieżność bezwzględną.</strong> Czy szereg modułów jest zbieżny? Porównaj go z \(\sum 1/n^p\).</p>
+<p><strong>Przykład:</strong></p>
+<p>$$\sum_{n=1}^{\infty}\left|\frac{i^nz^{3n}}{n(1+i)}\right|
+=\frac{1}{\sqrt2}\sum_{n=1}^{\infty}\frac1n.$$</p>
+<p>Szereg harmoniczny jest rozbieżny. Na brzegu nie ma więc zbieżności bezwzględnej.</p>
+</div></div>
+<div class="step"><div class="step-num">3</div><div>
+<p><strong>Jeśli nie ma zbieżności bezwzględnej, szukaj warunkowej.</strong> Zastosuj kryterium Dirichleta.</p>
+<p><strong>Przykład:</strong> wybieramy \(a_n=q^n\) i \(b_n=1/n\). Ciąg \(b_n\) maleje do zera. Gdy \(q\neq1\), sumy częściowe spełniają:</p>
+<p>$$\begin{aligned}
+\left|\sum_{n=1}^{N}q^n\right|
+&=\left|\frac{q(1-q^N)}{1-q}\right|\\
+&=\frac{|q|\,|1-q^N|}{|1-q|}\\
+&\leq\frac{|q|(1+|q^N|)}{|1-q|}\\
+&=\frac{2}{|1-q|}.
+\end{aligned}$$</p>
+<p>Nierówność wynika z \(|1-q^N|\leq|1|+|-q^N|=1+|q^N|\). Ponieważ \(|q|=1\), mamy też \(|q^N|=1\).</p>
+<p>Są więc ograniczone. Kryterium Dirichleta daje zbieżność warunkową dla \(q=iz^3\neq1\).</p>
+</div></div>
+<div class="step"><div class="step-num">4</div><div>
+<p><strong>Znajdź punkty wyjątkowe.</strong> Przy szeregu \(\sum q(z)^n/n\) rozwiąż równanie \(q(z)=1\). W tych punktach powstaje szereg harmoniczny.</p>
+<p><strong>Przykład:</strong></p>
+<p>$$iz^3=1\iff z^3=-i=e^{-i\pi/2}.$$</p>
+<p>Trzy rozwiązania na brzegu to:</p>
+<p>$$z=e^{-i\pi/6},\qquad z=e^{i\pi/2},\qquad z=e^{i7\pi/6}.$$</p>
+<p>W tych punktach szereg jest rozbieżny. W każdym innym punkcie okręgu \(|z|=1\) jest zbieżny warunkowo.</p>
+</div></div>
+<div class="warning">
+<p><strong>PUŁAPKA:</strong> Zbieżność w jednym punkcie brzegu nie oznacza zbieżności w innym! Np. \(\sum z^n/n\) zbiega się w każdym punkcie okręgu \(|z|=1\) oprócz \(z=1\).</p>
+</div>
+</div>
+
+<div class="card">
+<h2>Quiz</h2>
+<div class="quiz">
+<div class="quiz-question">1. Jaki jest promień zbieżności szeregu \(\sum n! \cdot z^n\)?</div>
+<div class="quiz-options" data-answer="b">
+<button onclick="check(this)">a) \(R = 1\)</button>
+<button onclick="check(this)">b) \(R = 0\)</button>
+<button onclick="check(this)">c) \(R = \infty\)</button>
+</div>
+<div class="feedback" id="fb1"></div>
+
+<div class="quiz-question">2. W szeregu \(\sum \frac{z^{2n}}{n^2}\) podstawiamy \(w = z^2\). Jaki jest promień zbieżności względem \(z\)?</div>
+<div class="quiz-options" data-answer="a">
+<button onclick="check(this)">a) \(R = 1\)</button>
+<button onclick="check(this)">b) \(R = 2\)</button>
+<button onclick="check(this)">c) \(R = \sqrt{2}\)</button>
+</div>
+<div class="feedback" id="fb2"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Twoja kolej</h2>
+<p>Weź <strong>Lista 6, zadanie 4</strong> i spróbuj samodzielnie wyznaczyć promień zbieżności dla podpunktów (d), (e), (f).</p>
+<details class="hint"><summary>STRATEGIA OGÓLNA</summary><p>Użyj wzoru Cauchy'ego-Hadamarda \(R = 1/\limsup |a_n|^{1/n}\) lub wzoru z ilorazu. Zwróć uwagę na wykładniki \(z\) &mdash; jeśli jest \(z^{kn}\), podstaw \(w = z^k\).</p></details>
+<details class="hint"><summary>PODPOWIEDŹ DO (D)</summary><p>Dla \(\sum \frac{n!}{(2i)^n}z^n\) iloraz modułów kolejnych wyrazów wynosi \(\frac{n+1}{2}|z|\). Dla każdego \(z\neq0\) dąży do nieskończoności. Zatem \(R=0\).</p></details>
+<details class="hint"><summary>PODPOWIEDŹ DO (E)</summary><p>Dla \(\sum z^{n!}\): gdy \(|z|<1\), mamy \(n!\geq n\), więc \(|z|^{n!}\leq|z|^n\). Gdy \(|z|\geq1\), wyrazy nie dążą do zera. Zatem \(R=1\), a na całym brzegu szereg jest rozbieżny.</p></details>
+<details class="hint"><summary>PODPOWIEDŹ DO (F)</summary><p>Podstaw \(w=z^2\). Współczynnik ma postać \(\frac{q^n}{n}\), gdzie \(q=\frac{1+i}{\sqrt2}\) i \(|q|=1\). Stąd \(R_w=1\), więc \(R_z=1\). Na brzegu zbadaj \(\sum(qz^2)^n/n\).</p></details>
+<details class="hint"><summary>PUNKTY WYJĄTKOWE DO (F)</summary><p>Szereg jest rozbieżny, gdy \(qz^2=1\), czyli dla \(z=\pm e^{-i\pi/8}\). W pozostałych punktach brzegu jest zbieżny warunkowo z kryterium Dirichleta.</p></details>
+</div>
+
+<div class="nav">
+<p>Następna lekcja: <a href="0002-rozwinięcie-w-szereg-laurenta.html">Rozwinięcie w szereg Laurenta</a></p>
+<p class="open-cmd">Otwórz w przeglądarce: <code>google-chrome lessons/0001-promien-zbieznosci-szeregu-potegowego.html</code></p>
+</div>
+
+<script src="quiz.js"></script>
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ściągawka: Obliczanie residuum</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<style>
+body { font-family: 'Georgia', serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; color: #222; }
+h1 { font-size: 1.8rem; border-bottom: 2px solid #333; padding-bottom: 0.3rem; }
+h2 { font-size: 1.3rem; margin-top: 1.5rem; color: #444; }
+.box { background: #f8f9fa; border-left: 4px solid #0066cc; padding: 1rem; margin: 1rem 0; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+th { background: #eee; }
+ul { margin-top: 0.5rem; }
+@media print { body { max-width: 100%; margin: 0; } .box { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<h1>Ściągawka: Obliczanie residuum</h1>
+
+<p>Residuum funkcji \(f\) w punkcie \(z_0\) to współczynnik \(a_{-1}\) w rozwinięciu Laurenta:</p>
+<p>$$f(z) = \sum_{n=-\infty}^{\infty} a_n(z - z_0)^n \quad \Rightarrow \quad \operatorname{Res}_{z_0} f = a_{-1}$$</p>
+
+<h2>Algorytm: jaki punkt osobliwy?</h2>
+<table>
+<tr><th>Rodzaj osobliwości</th><th>Test</th><th>Jak obliczyć residuum</th></tr>
+<tr>
+<td><strong>Pozorna</strong></td>
+<td>\(\lim_{z\to z_0} f(z)\) istnieje (skończona)</td>
+<td>\(\operatorname{Res} = 0\)</td>
+</tr>
+<tr>
+<td><strong>Biegun rzędu 1</strong></td>
+<td>\(\lim_{z\to z_0} (z-z_0)f(z)\) istnieje i \(\neq 0\)</td>
+<td>$$\operatorname{Res} = \lim_{z\to z_0} (z-z_0)f(z)$$</td>
+</tr>
+<tr>
+<td><strong>Biegun rzędu k</strong></td>
+<td>\(\lim_{z\to z_0} (z-z_0)^k f(z)\) istnieje i \(\neq 0\), dla mniejszych potęg \(\to \infty\)</td>
+<td>$$\operatorname{Res} = \frac{1}{(k-1)!} \lim_{z\to z_0} \frac{d^{k-1}}{dz^{k-1}}\bigl[(z-z_0)^k f(z)\bigr]$$</td>
+</tr>
+<tr>
+<td><strong>Istotnie osobliwy</strong></td>
+<td>Granica \(\lim_{z\to z_0} f(z)\) nie istnieje</td>
+<td>Rozwinąć w szereg Laurenta i odczytać \(a_{-1}\)</td>
+</tr>
+</table>
+
+<h2>Wskazówki praktyczne</h2>
+<div class="box">
+<ul>
+<li><strong>Biegun rzędu 1 — ułamek prosty:</strong> Jeśli \(f(z) = \frac{g(z)}{h(z)}\), gdzie \(h(z_0) = 0\), \(h'(z_0) \neq 0\), \(g(z_0) \neq 0\), to<br>
+$$\operatorname{Res}_{z_0} f = \frac{g(z_0)}{h'(z_0)}$$</li>
+<li><strong>Residuum w nieskończoności:</strong><br>
+$$\operatorname{Res}_{\infty} f = -\operatorname{Res}_0 \Bigl[\frac{1}{z^2} \cdot f\Bigl(\frac{1}{z}\Bigr)\Bigr]$$</li>
+<li><strong>Suma wszystkich residuów:</strong> Dla funkcji meromorficznej na \(\mathbb{C}\)<br>
+$$\sum \operatorname{Res}_{z_k} f + \operatorname{Res}_{\infty} f = 0$$</li>
+</ul>
+</div>
+
+<h2>Przykłady szybkie</h2>
+<div class="box">
+<p><strong>1. Biegun rzędu 1:</strong> \(f(z) = \frac{e^z}{\sin z}\) w \(z_0 = 0\)</p>
+<p>$$\operatorname{Res}_0 f = \lim_{z\to 0} z \cdot \frac{e^z}{\sin z} = 1$$</p>
+
+<p><strong>2. Biegun rzędu 2:</strong> \(f(z) = \frac{1}{(z^2+1)^2}\) w \(z_0 = i\)</p>
+<p>$$\operatorname{Res}_i f = \lim_{z\to i} \frac{d}{dz}\Bigl[\frac{(z-i)^2}{(z-i)^2(z+i)^2}\Bigr] = \lim_{z\to i} \frac{d}{dz}\Bigl[\frac{1}{(z+i)^2}\Bigr] = \lim_{z\to i} \frac{-2}{(z+i)^3} = \frac{-2}{(2i)^3} = -\frac{i}{4}$$</p>
+
+<p><strong>3. Istotnie osobliwy:</strong> \(f(z) = z\cos\frac{1}{z}\) w \(z_0 = 0\)</p>
+<p>$$\cos\frac{1}{z} = \sum \frac{(-1)^n}{(2n)!} z^{-2n}, \quad \text{więc} \quad z\cos\frac{1}{z} = \sum \frac{(-1)^n}{(2n)!} z^{1-2n}$$</p>
+<p>Współczynnik przy \(z^{-1}\) to \(\frac{(-1)^1}{2!} = -\frac{1}{2}\)</p>
+</div>
+
+<p style="margin-top:2rem; font-size:0.9rem; color:#666;">Ściągawka do szybkiego druku. Otwórz w przeglądarce i wydrukuj (Ctrl+P).</p>
+
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

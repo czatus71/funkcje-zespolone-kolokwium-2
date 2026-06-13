@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Ściągawka: Promień zbieżności szeregu potęgowego</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<style>
+body { font-family: 'Georgia', serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; color: #222; }
+h1 { font-size: 1.8rem; border-bottom: 2px solid #333; padding-bottom: 0.3rem; }
+h2 { font-size: 1.3rem; margin-top: 1.5rem; color: #444; }
+.box { background: #f8f9fa; border-left: 4px solid #0066cc; padding: 1rem; margin: 1rem 0; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+th { background: #eee; }
+ul { margin-top: 0.5rem; }
+@media print { body { max-width: 100%; margin: 0; } .box { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<h1>Ściągawka: Promień zbieżności szeregu potęgowego</h1>
+
+<h2>Wzór ogólny</h2>
+<p>Dla szeregu \(\sum_{n=0}^{\infty} a_n(z - z_0)^n\) szukamy <strong>R</strong> takiego, że szereg zbieżny bezwzględnie dla \(|z - z_0| < R\) i rozbieżny dla \(|z - z_0| > R\).</p>
+
+<h2>Wzory na promień</h2>
+<div class="box">
+<p><strong>Hadamard (granica górna):</strong></p>
+<p>$$R = \frac{1}{\limsup_{n\to\infty} |a_n|^{1/n}}$$</p>
+<p><strong>Stosunek (dla istniejącej granicy):</strong></p>
+<p>$$R = \lim_{n\to\infty} \left|\frac{a_n}{a_{n+1}}\right|$$</p>
+<p><strong>Granica pierwiastkowa:</strong></p>
+<p>$$R = \lim_{n\to\infty} \frac{1}{|a_n|^{1/n}}$$</p>
+</div>
+
+<h2>Brzeg koła — zachowanie</h2>
+<p>Na brzegu \(|z - z_0| = R\) zbieżność trzeba badać osobno dla każdego punktu. Typowe narzędzia:</p>
+<table>
+<tr><th>Metoda</th><th>Kiedy użyć</th><th>Wzór</th></tr>
+<tr><td>Warunek konieczny</td><td>Szybkie wykluczenie zbieżności</td><td>Jeśli \(a_n(z - z_0)^n \not\to 0\), to rozbieżność</td></tr>
+<tr><td>Test Dirichleta</td><td>\(\sum a_n b_n\) gdzie \(b_n\) ma ograniczone sumy częściowe, \(a_n \to 0\) monotonicznie</td><td>np. \(\sum \frac{\cos(n\theta)}{n}\)</td></tr>
+<tr><td>Test Abela</td><td>Szereg potęgowy zbieżny w jednym punkcie brzegu</td><td>Zbieżność w punkcie brzegu → zbieżność na promieniu do niego</td></tr>
+<tr><td>Bezwzględna</td><td>\(|a_n|R^n\) daje szereg zbieżny</td><td>np. porównanie z \(\sum \frac{1}{n^2}\)</td></tr>
+</table>
+
+<h2>Typowe przypadki szczególne</h2>
+<div class="box">
+<ul>
+<li><strong>Silnia (n!)</strong> w liczniku: promień \(R = 0\) (szereg zbieżny tylko w środku).</li>
+<li><strong>Silnia w mianowniku</strong>: promień \(R = \infty\) (funkcja całkowita).</li>
+<li><strong>Spacje (n!)</strong> w potędze: użyć \(w = (z - z_0)^k\) i szereg zmiennej \(w\).</li>
+<li><strong>Brak wyrazów parzystych/nieparzystych</strong>: użyć wzoru Hadamard z podciągami lub podstawić \(w = z^2\).</li>
+</ul>
+</div>
+
+<h2>Przypomnienie — szereg geometryczny</h2>
+<p>$$\sum_{n=0}^{\infty} w^n = \frac{1}{1 - w}, \quad |w| < 1$$</p>
+<p>$$\sum_{n=0}^{\infty} (n+1)w^n = \frac{1}{(1 - w)^2}, \quad |w| < 1$$</p>
+<p>$$\sum_{n=1}^{\infty} n w^n = \frac{w}{(1 - w)^2}, \quad |w| < 1$$</p>
+
+<p style="margin-top:2rem; font-size:0.9rem; color:#666;">Ściągawka do szybkiego druku. Otwórz w przeglądarce i wydrukuj (Ctrl+P).</p>
+
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>

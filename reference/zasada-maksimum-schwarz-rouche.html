@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ściągawka: Zasada maksimum, Schwarz, Rouche</title>
+<link rel="stylesheet" href="../katex/katex.min.css">
+<style>
+body { font-family: 'Georgia', serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; color: #222; }
+h1 { font-size: 1.8rem; border-bottom: 2px solid #333; padding-bottom: 0.3rem; }
+h2 { font-size: 1.3rem; margin-top: 1.5rem; color: #444; }
+.box { background: #f8f9fa; border-left: 4px solid #0066cc; padding: 1rem; margin: 1rem 0; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+th { background: #eee; }
+@media print { body { max-width: 100%; margin: 0; } .box { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<h1>Ściągawka: Zasada maksimum, Schwarz, Rouche</h1>
+
+<h2>Zasada maksimum</h2>
+<div class="box">
+<p>Jeśli \(f\) jest <strong>holomorficzna</strong> w obszarze jednospójnym i spójnym \(V\) i <strong>nie jest stała</strong>, to:</p>
+<p>$$\sup_{z \in V} |f(z)| \text{ nie jest osiągane w } V$$</p>
+<p>Inaczej: maksimum modułu jest zawsze na brzegu.</p>
+<p><strong>Wniosek:</strong> Dla koła domkniętego \(\overline{K} = \{z : |z - z_0| \leq R\}\):</p>
+<p>$$\max_{z \in \overline{K}} |f(z)| = \max_{|z - z_0| = R} |f(z)|$$</p>
+</div>
+
+<h2>Zasada minimum</h2>
+<div class="box">
+<p>Jeśli \(f\) jest holomorficzna w \(V\), <strong>nie jest stała</strong> i \(f(z) \neq 0\) w \(V\), to:</p>
+<p>$$\inf_{z \in V} |f(z)| \text{ nie jest osiągane w } V$$</p>
+<p>Maksimum i minimum modułu funkcji holomorficznej na obszarze są zawsze na brzegu.</p>
+</div>
+
+<h2>Lemat Schwarza</h2>
+<div class="box">
+<p>Jeśli \(f\) jest holomorficzna w kole jednostkowym \(K = \{z : |z| < 1\}\), \(|f(z)| \leq 1\) dla \(z \in K\) i \(f(0) = 0\), to:</p>
+<p>$$|f(z)| \leq |z| \quad \text{dla } z \in K$$</p>
+<p>$$|f'(0)| \leq 1$$</p>
+<p>Jeśli któraś nierówność jest ostra dla pewnego \(z \neq 0\), to \(f(z) = e^{i\alpha}z\) (obrót).</p>
+</div>
+
+<h2>Lemat Schwarza-Picka</h2>
+<div class="box">
+<p>Dla \(f\) holomorficznej w \(K\), \(|f(z)| < 1\):</p>
+<p>$$\frac{|f'(z)|}{1 - |f(z)|^2} \leq \frac{1}{1 - |z|^2}$$</p>
+</div>
+
+<h2>Twierdzenie Rouchego</h2>
+<div class="box">
+<p>Jeśli \(f, g\) są holomorficzne w obszarze jednospójnym \(V\), \(\Gamma\) to krzywa zamknięta dodatnio w \(V\), i dla \(z \in \Gamma\):</p>
+<p>$$|g(z)| < |f(z)|$$</p>
+<p>to \(f + g\) i \(f\) mają <strong>tę samą liczbę zer</strong> wewnątrz \(\Gamma\) (liczonych z krotnościami).</p>
+<p><strong>Schemat zastosowania:</strong> szukasz funkcji dominującej (większa na brzegu) i porównujesz liczbę zer.</p>
+</div>
+
+<h2>Twierdzenie o wartości średniej</h2>
+<div class="box">
+<p>$$f(z_0) = \frac{1}{2\pi} \int_0^{2\pi} f(z_0 + re^{it})\, dt$$</p>
+<p>Wartość w środku to średnia po okręgu. Stąd wynika zasada maksimum.</p>
+</div>
+
+<p style="margin-top:2rem; font-size:0.9rem; color:#666;">Ściągawka do szybkiego druku. Otwórz w przeglądarce i wydrukuj (Ctrl+P).</p>
+
+<script src="../katex/katex.min.js"></script>
+<script src="../katex/auto-render.min.js"></script>
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });
+</script>
+
+</body>
+</html>
